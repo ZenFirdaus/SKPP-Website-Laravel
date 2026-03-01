@@ -11,14 +11,21 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware(['auth'])->group(function () {
+
+    Route::middleware('role:mitra')->prefix('mitra')->group(function () {
+        Route::get('/dashboard', fn() => view('mitra.dashboard'));
+    });
+
+    Route::middleware('role:staff')->prefix('staff')->group(function () {
+        Route::get('/dashboard', fn() => view('staff.dashboard'));
+    });
+
+    Route::middleware('role:kepala')->prefix('kepala')->group(function () {
+        Route::get('/dashboard', fn() => view('kepala.dashboard'));
+    });
+
 });
 
-Route::middleware(['auth', 'role:mitra'])->get('/mitra', function () {
-    return "Halaman Mitra";
-});
 
 require __DIR__.'/auth.php';
