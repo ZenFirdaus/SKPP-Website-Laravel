@@ -12,4 +12,8 @@
             </div>
         </div>
     </div>
+
+    <a href="{{ route('permohonan.index') }}" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">
+    Kelola Permohonan
+</a>
 </x-app-layout>

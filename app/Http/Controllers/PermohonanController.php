@@ -46,7 +46,7 @@ class PermohonanController extends Controller
             'status' => 'menunggu', // default status
         ]);
 
-        return redirect()->route('permohonans.index')->with('success', 'Permohonan berhasil diajukan');
+        return redirect()->route('permohonan.index')->with('success', 'Permohonan berhasil diajukan');
     }
 
     // Menampilkan detail permohonan
@@ -91,6 +91,6 @@ class PermohonanController extends Controller
         $permohonan = Permohonan::where('user_id', Auth::id())->findOrFail($id);
         $permohonan->delete();
 
-        return redirect()->route('permohonans.index')->with('success', 'Permohonan berhasil dihapus');
+        return redirect()->route('permohonan.index')->with('success', 'Permohonan berhasil dihapus');
     }
 }
