@@ -19,7 +19,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('permohonan.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('pengajuan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     {{-- Data Umum --}}
@@ -97,9 +97,9 @@
                     <div class="flex gap-3 mt-6">
                         <button type="submit"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold">
-                            Ajukan Permohonan
+                            Ajukan pengajuan
                         </button>
-                        <a href="{{ route('permohonan.index') }}"
+                        <a href="{{ route('pengajuan.index') }}"
                             class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold">
                             Batal
                         </a>

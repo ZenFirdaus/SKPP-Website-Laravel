@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Edit Permohonan
+            Edit pengajuan
         </h2>
     </x-slot>
 
@@ -19,32 +19,32 @@
                     </div>
                 @endif
 
-                <form action="{{ route('permohonan.update', $permohonan->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('pengajuan.update', $pengajuan->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
                     <div class="mb-4">
                         <label class="block font-medium text-gray-700 mb-1">Nama Pegawai / Perusahaan</label>
-                        <input type="text" name="nama_perusahaan" value="{{ old('nama_perusahaan', $permohonan->nama_perusahaan) }}"
+                        <input type="text" name="nama_perusahaan" value="{{ old('nama_perusahaan', $pengajuan->nama_perusahaan) }}"
                             class="border border-gray-300 rounded w-full p-2">
                     </div>
 
                     <div class="mb-4">
                         <label class="block font-medium text-gray-700 mb-1">Alamat</label>
-                        <input type="text" name="alamat" value="{{ old('alamat', $permohonan->alamat) }}"
+                        <input type="text" name="alamat" value="{{ old('alamat', $pengajuan->alamat) }}"
                             class="border border-gray-300 rounded w-full p-2">
                     </div>
 
                     <div class="mb-4">
                         <label class="block font-medium text-gray-700 mb-1">NPWP</label>
-                        <input type="text" name="npwp" value="{{ old('npwp', $permohonan->npwp) }}"
+                        <input type="text" name="npwp" value="{{ old('npwp', $pengajuan->npwp) }}"
                             class="border border-gray-300 rounded w-full p-2">
                     </div>
 
                     <div class="mb-4">
                         <label class="block font-medium text-gray-700 mb-1">Keperluan</label>
                         <textarea name="keperluan" rows="3"
-                            class="border border-gray-300 rounded w-full p-2">{{ old('keperluan', $permohonan->keperluan) }}</textarea>
+                            class="border border-gray-300 rounded w-full p-2">{{ old('keperluan', $pengajuan->keperluan) }}</textarea>
                     </div>
 
                     {{-- Upload Dokumen --}}
@@ -57,11 +57,11 @@
                             <label class="block font-medium text-gray-700 mb-1">
                                 Slip Gaji <span class="text-gray-400 text-sm font-normal">(PDF, maks 2MB)</span>
                             </label>
-                            @if ($permohonan->file_slip_gaji)
+                            @if ($pengajuan->file_slip_gaji)
                                 <div class="flex items-center gap-2 mb-2 text-sm text-green-700 bg-green-50 px-3 py-2 rounded">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
                                     File sudah ada —
-                                    <a href="{{ Storage::url($permohonan->file_slip_gaji) }}" target="_blank" class="underline">Lihat File</a>
+                                    <a href="{{ Storage::url($pengajuan->file_slip_gaji) }}" target="_blank" class="underline">Lihat File</a>
                                 </div>
                             @endif
                             <input type="file" name="file_slip_gaji" accept=".pdf"
@@ -75,11 +75,11 @@
                             <label class="block font-medium text-gray-700 mb-1">
                                 Surat Keputusan (SK) <span class="text-gray-400 text-sm font-normal">(PDF, maks 2MB)</span>
                             </label>
-                            @if ($permohonan->file_sk)
+                            @if ($pengajuan->file_sk)
                                 <div class="flex items-center gap-2 mb-2 text-sm text-green-700 bg-green-50 px-3 py-2 rounded">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
                                     File sudah ada —
-                                    <a href="{{ Storage::url($permohonan->file_sk) }}" target="_blank" class="underline">Lihat File</a>
+                                    <a href="{{ Storage::url($pengajuan->file_sk) }}" target="_blank" class="underline">Lihat File</a>
                                 </div>
                             @endif
                             <input type="file" name="file_sk" accept=".pdf"
@@ -93,11 +93,11 @@
                             <label class="block font-medium text-gray-700 mb-1">
                                 Dokumen SKPP <span class="text-gray-400 text-sm font-normal">(PDF, maks 2MB)</span>
                             </label>
-                            @if ($permohonan->file_skpp)
+                            @if ($pengajuan->file_skpp)
                                 <div class="flex items-center gap-2 mb-2 text-sm text-green-700 bg-green-50 px-3 py-2 rounded">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
                                     File sudah ada —
-                                    <a href="{{ Storage::url($permohonan->file_skpp) }}" target="_blank" class="underline">Lihat File</a>
+                                    <a href="{{ Storage::url($pengajuan->file_skpp) }}" target="_blank" class="underline">Lihat File</a>
                                 </div>
                             @endif
                             <input type="file" name="file_skpp" accept=".pdf"
@@ -110,9 +110,9 @@
                     <div class="flex gap-3 mt-6">
                         <button type="submit"
                             class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-semibold">
-                            Update Permohonan
+                            Update pengajuan
                         </button>
-                        <a href="{{ route('permohonan.index') }}"
+                        <a href="{{ route('pengajuan.index') }}"
                             class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold">
                             Batal
                         </a>

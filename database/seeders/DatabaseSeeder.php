@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Permohonan;
+use App\Models\Pengajuan;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,19 +18,26 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        User::firstOrCreate(
+            ['email' => 'staff@example.com'],
+            [
+                'name' => 'Staff Admin',
+                'password' => bcrypt('staff123'),
+                'role' => 'staff',
+            ]
+        );
+
+        User::firstOrCreate(
+            ['email' => 'kepala@example.com'],
+            [
+                'name' => 'Kepala Staff',
+                'password' => bcrypt('kepala123'),
+                'role' => 'kepala',
+            ]
+        );
+
+        Pengajuan::factory()->count(5)->create([
+            'user_id' => 1,
         ]);
-
-        \App\Models\User::factory()->create([
-        'email' => 'user@test.com',
-        'password' => bcrypt('password'),
-    ]);
-
-    Permohonan::factory()->count(5)->create([
-        'user_id' => 1,
-    ]);
     }
-    
 }

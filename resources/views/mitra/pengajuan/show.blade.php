@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Detail Permohonan
+            Detail pengajuan
         </h2>
     </x-slot>
 
@@ -12,7 +12,7 @@
                 {{-- Status Badge --}}
                 <div class="mb-6">
                     @php
-                        $statusColor = match($permohonan->status) {
+                        $statusColor = match($pengajuan->status) {
                             'menunggu'  => 'bg-yellow-100 text-yellow-800',
                             'diproses'  => 'bg-blue-100 text-blue-800',
                             'disetujui' => 'bg-green-100 text-green-800',
@@ -21,31 +21,31 @@
                         };
                     @endphp
                     <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold {{ $statusColor }}">
-                        Status: {{ ucfirst($permohonan->status) }}
+                        Status: {{ ucfirst($pengajuan->status) }}
                     </span>
                 </div>
 
-                {{-- Data Permohonan --}}
+                {{-- Data pengajuan --}}
                 <div class="grid grid-cols-1 gap-4 mb-6">
                     <div>
                         <p class="text-sm text-gray-500">Nama Pegawai / Perusahaan</p>
-                        <p class="font-medium">{{ $permohonan->nama_perusahaan }}</p>
+                        <p class="font-medium">{{ $pengajuan->nama_perusahaan }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Alamat</p>
-                        <p class="font-medium">{{ $permohonan->alamat }}</p>
+                        <p class="font-medium">{{ $pengajuan->alamat }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">NPWP</p>
-                        <p class="font-medium">{{ $permohonan->npwp ?? '-' }}</p>
+                        <p class="font-medium">{{ $pengajuan->npwp ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Keperluan</p>
-                        <p class="font-medium">{{ $permohonan->keperluan }}</p>
+                        <p class="font-medium">{{ $pengajuan->keperluan }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Tanggal Pengajuan</p>
-                        <p class="font-medium">{{ $permohonan->created_at->format('d M Y, H:i') }}</p>
+                        <p class="font-medium">{{ $pengajuan->created_at->format('d M Y, H:i') }}</p>
                     </div>
                 </div>
 
@@ -66,8 +66,8 @@
                                     </svg>
                                     <span class="text-sm font-medium text-gray-700">{{ $label }}</span>
                                 </div>
-                                @if ($permohonan->$field)
-                                    <a href="{{ Storage::url($permohonan->$field) }}" target="_blank"
+                                @if ($pengajuan->$field)
+                                    <a href="{{ Storage::url($pengajuan->$field) }}" target="_blank"
                                         class="text-sm text-blue-600 hover:underline font-medium">
                                         Lihat / Unduh
                                     </a>
@@ -81,12 +81,12 @@
                 </div>
 
                 <div class="mt-6 flex gap-3">
-                    <a href="{{ route('permohonan.index') }}"
+                    <a href="{{ route('pengajuan.index') }}"
                         class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded font-semibold">
                         ← Kembali
                     </a>
-                    @if ($permohonan->status === 'menunggu')
-                        <a href="{{ route('permohonan.edit', $permohonan->id) }}"
+                    @if ($pengajuan->status === 'menunggu')
+                        <a href="{{ route('pengajuan.edit', $pengajuan->id) }}"
                             class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded font-semibold">
                             Edit
                         </a>
