@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('pencatatan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengajuans_id')->constrained('pengajuans')->onDelete('cascade');
+            $table->foreignId('pengajuan_id')->constrained('pengajuans')->onDelete('cascade');
             $table->string('nama_lengkap');
             $table->string('nip');
             $table->enum('status_dokumen', ['valid', 'tidak_valid'])->default('valid');

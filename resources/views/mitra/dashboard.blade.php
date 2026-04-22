@@ -20,7 +20,9 @@
 
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-3">
-                        <div class="w-14 h-14 bg-white rounded-full"></div>
+                        <a href="{{ route('profile.edit') }}">
+                            <div class="w-14 h-14 bg-white rounded-full"></div>
+                        </a>
                         <div>
                             <p class="text-base">Halo,</p>
                             <p class="font-bold text-lg">{{ Auth::user()->name }}</p>
@@ -82,7 +84,7 @@
                 </a>
 
                 <!-- Catat Data -->
-                <a href="#" class="transform transition hover:scale-105">
+                <a href="{{ route('staff.pencatatan.index') }}" class="transform transition hover:scale-105">
                     <div
                         class="bg-orange-400 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
                         <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
@@ -93,10 +95,10 @@
                 </a>
 
                 <!-- Pengecekan -->
-                <a href="#" class="transform transition hover:scale-105">
+                <a href="{{ route('kepala.pengecekan.index') }}" class="transform transition hover:scale-105">
                     <div
                         class="bg-green-500 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
-                        <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
+                        <svg class="w-20 h-20" fill="none" stroke="white" stroke-width="2">
                             <path d="M20 6 9 17l-5-5" />
                         </svg>
                         <p class="text-lg font-semibold">Pengecekan</p>
@@ -104,7 +106,7 @@
                 </a>
 
                 <!-- Draft -->
-                <a href="#" class="transform transition hover:scale-105">
+                <a href="{{ route('staff.pengarsipan.index') }}" class="transform transition hover:scale-105">
                     <div
                         class="bg-yellow-400 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
                         <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
@@ -115,7 +117,7 @@
                 </a>
 
                 <!-- Arsip -->
-                <a href="#" class="transform transition hover:scale-105">
+                <a href="{{ route('staff.pengarsipan.index') }}" class="transform transition hover:scale-105">
                     <div
                         class="bg-blue-400 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
                         <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
@@ -126,14 +128,14 @@
                     </div>
                 </a>
 
-                <!-- Laporan -->
-                <a href="#" class="transform transition hover:scale-105">
+                <!-- Pengunduhan -->
+                <a href="{{ route('mitra.pengunduhan.index') }}" class="transform transition hover:scale-105">
                     <div
                         class="bg-pink-400 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
                         <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
                             <path d="M4 19h16M4 15h10M4 11h16M4 7h10" />
                         </svg>
-                        <p class="text-lg font-semibold">Laporan</p>
+                        <p class="text-lg font-semibold">Unduh SKPP</p>
                     </div>
                 </a>
 
@@ -142,9 +144,11 @@
             <!-- NAVBAR -->
             <div class="absolute bottom-0 w-full bg-white border-t flex justify-around py-4">
                 <div class="text-blue-500">
-                    <svg class="w-7 h-7" fill="currentColor">
-                        <path d="M3 9l9-7 9 7v11H3z" />
-                    </svg>
+                    <a href="{{ route('dashboard') }}">
+                        <svg class="w-7 h-7" fill="currentColor">
+                            <path d="M3 9l9-7 9 7v11H3z" />
+                        </svg>
+                    </a>
                 </div>
 
                 <div>
@@ -154,10 +158,12 @@
                 </div>
 
                 <div>
-                    <svg class="w-7 h-7" fill="none" stroke="black" stroke-width="2">
-                        <circle cx="12" cy="7" r="4" />
-                        <path d="M5 21c1.5-4 12.5-4 14 0" />
-                    </svg>
+                    <a href="{{ route('profile.edit') }}">
+                        <svg class="w-7 h-7" fill="none" stroke="black" stroke-width="2">
+                            <circle cx="12" cy="7" r="4" />
+                            <path d="M5 21c1.5-4 12.5-4 14 0" />
+                        </svg>
+                    </a>
                 </div>
             </div>
 

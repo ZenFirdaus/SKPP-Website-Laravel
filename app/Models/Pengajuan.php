@@ -9,6 +9,8 @@ class Pengajuan extends Model
 {
     use HasFactory;
 
+    protected $table = 'pengajuans';
+
     protected $fillable = [
         'user_id',
         'nama_perusahaan',
@@ -19,8 +21,10 @@ class Pengajuan extends Model
         'file_slip_gaji',
         'file_sk',
         'file_skpp',
-        'status_pencatatan',  // tambah ini
-        'status_pengecekan',  // tambah ini
+        'status_pencatatan',
+        'status_pengecekan',
+        'status_arsip',
+        'status_draft',
     ];
 
     public function user()
@@ -36,5 +40,15 @@ class Pengajuan extends Model
     public function pengecekan()
     {
         return $this->hasOne(Pengecekan::class);
+    }
+
+    public function arsip()
+    {
+        return $this->hasOne(Arsip::class);
+    }
+
+    public function draftSkpp()
+    {
+        return $this->hasOne(DraftSkpp::class);
     }
 }

@@ -21,9 +21,47 @@
 
                 <form action="{{ route('pengajuan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <!-- Taruh ini setelah @csrf dan sebelum bagian SLIP GAJI -->
 
+                    <!-- DATA DIRI -->
+                    <div class="bg-white rounded-3xl p-5 shadow-md space-y-4">
+                        <h3 class="font-semibold text-lg text-gray-700">Data Pengajuan</h3>
+
+                        @if ($errors->any())
+                            <div class="bg-red-50 text-red-600 rounded-xl p-3 text-sm">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
+
+                        <div>
+                            <label class="text-sm text-gray-500 mb-1 block">Nama Pegawai</label>
+                            <input type="text" name="nama_perusahaan" value="{{ old('nama_perusahaan') }}"
+                                placeholder="Masukkan Nama Pegawai"
+                                class="w-full p-3 rounded-xl bg-gray-100 border-none focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        </div>
+
+                        <div>
+                            <label class="text-sm text-gray-500 mb-1 block">Alamat</label>
+                            <input type="text" name="alamat" value="{{ old('alamat') }}"
+                                placeholder="Masukkan Alamat"
+                                class="w-full p-3 rounded-xl bg-gray-100 border-none focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        </div>
+
+                        <div>
+                            <label class="text-sm text-gray-500 mb-1 block">NPWP <span
+                                    class="text-gray-400">(opsional)</span></label>
+                            <input type="text" name="npwp" value="{{ old('npwp') }}" placeholder="Masukkan NPWP"
+                                class="w-full p-3 rounded-xl bg-gray-100 border-none focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        </div>
+
+                        <div>
+                            <label class="text-sm text-gray-500 mb-1 block">Keperluan</label>
+                            <textarea name="keperluan" placeholder="Masukkan Keperluan" rows="3"
+                                class="w-full p-3 rounded-xl bg-gray-100 border-none focus:outline-none focus:ring-2 focus:ring-blue-400">{{ old('keperluan') }}</textarea>
+                        </div>
+                    </div>
                     {{-- Data Umum --}}
-                    <div class="mb-4">
+                    {{-- <div class="mb-4">
                         <label class="block font-medium text-gray-700 mb-1">Nama Pegawai / Perusahaan</label>
                         <input type="text" name="nama_perusahaan" value="{{ old('nama_perusahaan') }}"
                             class="border border-gray-300 rounded w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
@@ -36,7 +74,8 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block font-medium text-gray-700 mb-1">NPWP <span class="text-gray-400 text-sm">(opsional)</span></label>
+                        <label class="block font-medium text-gray-700 mb-1">NPWP <span
+                                class="text-gray-400 text-sm">(opsional)</span></label>
                         <input type="text" name="npwp" value="{{ old('npwp') }}"
                             class="border border-gray-300 rounded w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     </div>
@@ -45,11 +84,12 @@
                         <label class="block font-medium text-gray-700 mb-1">Keperluan</label>
                         <textarea name="keperluan" rows="3"
                             class="border border-gray-300 rounded w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">{{ old('keperluan') }}</textarea>
-                    </div>
+                    </div> --}}
 
                     {{-- Upload Dokumen --}}
                     <div class="border-t pt-4 mt-4">
-                        <h3 class="font-semibold text-gray-700 mb-3">Upload Dokumen Pendukung <span class="text-red-500">*</span></h3>
+                        <h3 class="font-semibold text-gray-700 mb-3">Upload Dokumen Pendukung <span
+                                class="text-red-500">*</span></h3>
 
                         <div class="mb-4">
                             <label class="block font-medium text-gray-700 mb-1">

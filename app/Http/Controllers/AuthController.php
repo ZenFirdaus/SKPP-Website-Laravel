@@ -49,7 +49,7 @@ class AuthController extends Controller
     {
         return match ($role) {
             'staff'  => redirect()->route('mitra.dashboard'), // staff tetap diarahkan ke dashboard mitra
-            'kepala' => redirect()->route('kepala.dashboard'),
+            'kepala' => redirect()->route('kepala.pengecekan.index'),
             default  => redirect()->route('mitra.dashboard'),
         };
     }

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('pengecekan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengajuan_id')->constrained('pengajuan')->onDelete('cascade');
+            $table->foreignId('pengajuan_id')->constrained('pengajuans')->onDelete('cascade');
             $table->enum('slip_gaji', ['lengkap', 'tidak'])->nullable();
             $table->enum('sk', ['lengkap', 'tidak'])->nullable();
             $table->enum('surat_pengantar', ['lengkap', 'tidak'])->nullable();
@@ -20,8 +20,8 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::table('pengajuan', function (Blueprint $table) {
-            if (!Schema::hasColumn('pengajuan', 'status_pengecekan')) {
+        Schema::table('pengajuans', function (Blueprint $table) {
+            if (!Schema::hasColumn('pengajuans', 'status_pengecekan')) {
                 $table->enum('status_pengecekan', ['menunggu', 'disetujui', 'ditolak'])
                     ->default('menunggu')
                     ->after('status_pencatatan');
@@ -32,7 +32,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('pengecekan');
-        Schema::table('pengajuan', function (Blueprint $table) {
+        Schema::table('pengajuans', function (Blueprint $table) {
             $table->dropColumn('status_pengecekan');
         });
     }

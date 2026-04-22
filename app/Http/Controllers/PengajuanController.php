@@ -49,15 +49,15 @@ class PengajuanController extends Controller
         // Simpan file ke storage/app/public/dokumen
         if ($request->hasFile('file_slip_gaji')) {
             $data['file_slip_gaji'] = $request->file('file_slip_gaji')
-                ->store('dokumen/slip_gaji', 'public');
+                ->store('pengajuan', 'public');
         }
         if ($request->hasFile('file_sk')) {
             $data['file_sk'] = $request->file('file_sk')
-                ->store('dokumen/sk', 'public');
+                ->store('pengajuan', 'public');
         }
         if ($request->hasFile('file_skpp')) {
             $data['file_skpp'] = $request->file('file_skpp')
-                ->store('dokumen/skpp', 'public');
+                ->store('pengajuan', 'public');
         }
 
         Pengajuan::create($data);
@@ -105,21 +105,21 @@ class PengajuanController extends Controller
                 Storage::disk('public')->delete($pengajuan->file_slip_gaji);
             }
             $data['file_slip_gaji'] = $request->file('file_slip_gaji')
-                ->store('dokumen/slip_gaji', 'public');
+                ->store('pengajuan', 'public');
         }
         if ($request->hasFile('file_sk')) {
             if ($pengajuan->file_sk) {
                 Storage::disk('public')->delete($pengajuan->file_sk);
             }
             $data['file_sk'] = $request->file('file_sk')
-                ->store('dokumen/sk', 'public');
+                ->store('pengajuan', 'public');
         }
         if ($request->hasFile('file_skpp')) {
             if ($pengajuan->file_skpp) {
                 Storage::disk('public')->delete($pengajuan->file_skpp);
             }
             $data['file_skpp'] = $request->file('file_skpp')
-                ->store('dokumen/skpp', 'public');
+                ->store('pengajuan', 'public');
         }
 
         $pengajuan->update($data);
@@ -153,7 +153,7 @@ public function riwayat(): \Illuminate\View\View
 
         $pengajuan->delete();
 
-        return redirect()->route('mitra.pengajuan.index')
+        return redirect()->route('dashboard')
             ->with('success', 'Pengajuan berhasil dihapus!');
     }
 }

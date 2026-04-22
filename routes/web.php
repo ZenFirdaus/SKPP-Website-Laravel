@@ -7,7 +7,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\Staff\PencatatanController;
 use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\ArsipController;
 use App\Http\Controllers\Kepala\PengecekanController;
+use App\Http\Controllers\Kepala\DraftController;
+use App\Http\Controllers\Mitra\PengunduhController;
 
 // ================= AUTH =================
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
@@ -28,12 +31,16 @@ Route::middleware(['auth'])->group(function () {
         ->prefix('mitra')
         ->name('mitra.')
         ->group(function () {
-            Route::get('/dashboard', [StaffController::class, 'dashboard'])->name('dashboard');
+            Route::get('/dashboard', fn() => view('mitra.dashboard'))->name('dashboard');
 
-            Route::resource('pengajuan', PengajuanController::class);
-
+            // Pengajuan
             Route::get('/pengajuan/status', [PengajuanController::class, 'status'])->name('pengajuan.status');
             Route::get('/pengajuan/riwayat', [PengajuanController::class, 'riwayat'])->name('pengajuan.riwayat');
+            Route::resource('pengajuan', PengajuanController::class);
+
+            // Pengunduhan SKPP
+            Route::get('/pengunduhan', [PengunduhController::class, 'index'])->name('pengunduhan.index');
+            Route::get('/pengunduhan/{id}/download', [PengunduhController::class, 'unduh'])->name('pengunduhan.download');
         });
 
     // ================= STAFF =================
@@ -43,22 +50,35 @@ Route::middleware(['auth'])->group(function () {
         ->group(function () {
             Route::get('/dashboard', [StaffController::class, 'dashboard'])->name('dashboard');
 
-            // Pencatatan Data
+            // Pencatatan
             Route::get('/pencatatan', [PencatatanController::class, 'index'])->name('pencatatan.index');
             Route::get('/pencatatan/{id}/form', [PencatatanController::class, 'create'])->name('pencatatan.create');
             Route::post('/pencatatan/{id}/store', [PencatatanController::class, 'store'])->name('pencatatan.store');
             Route::get('/pencatatan/{id}/detail', [PencatatanController::class, 'show'])->name('pencatatan.show');
+
+            // Pengarsipan
+            Route::get('/pengarsipan', [ArsipController::class, 'index'])->name('pengarsipan.index');
+            Route::post('/pengarsipan/{id}', [ArsipController::class, 'store'])->name('pengarsipan.store');
+            Route::post('/pengarsipan/{id}/kirim', [ArsipController::class, 'kirimMitra'])->name('pengarsipan.kirim');
         });
 
     // ================= KEPALA =================
+    Route::middleware(['role:kepala'])
+        ->prefix('kepala')
+        ->name('kepala.')
+        ->group(function () {
+            Route::get('/dashboard', fn() => view('kepala.dashboard'))->name('dashboard');
 
+            // Pengecekan
+            Route::get('/pengecekan', [PengecekanController::class, 'index'])->name('pengecekan.index');
+            Route::get('/pengecekan/{id}', [PengecekanController::class, 'show'])->name('pengecekan.show');
+            Route::post('/pengecekan/{id}', [PengecekanController::class, 'store'])->name('pengecekan.store');
 
-    Route::middleware(['role:kepala'])->prefix('kepala')->name('kepala.')->group(function () {
-        Route::get('/dashboard', fn() => view('kepala.dashboard'))->name('dashboard');
-        Route::get('/pengecekan', [PengecekanController::class, 'index'])->name('pengecekan.index');
-        Route::get('/pengecekan/{id}', [PengecekanController::class, 'show'])->name('pengecekan.show');
-        Route::post('/pengecekan/{id}', [PengecekanController::class, 'store'])->name('pengecekan.store');
-    });
+            // Draft SKPP
+            Route::get('/draft', [DraftController::class, 'index'])->name('draft.index');
+            Route::get('/draft/{id}/upload', [DraftController::class, 'create'])->name('draft.create');
+            Route::post('/draft/{id}/upload', [DraftController::class, 'store'])->name('draft.store');
+        });
 
     // ================= PROFILE =================
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
