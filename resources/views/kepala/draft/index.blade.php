@@ -1,173 +1,416 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Draft SKPP</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background: #dff0f7; display: flex; justify-content: center; }
-        .shell { width: 100%; max-width: 430px; min-height: 100vh; background: #dff0f7; display: flex; flex-direction: column; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #dff0f7;
+            display: flex;
+            justify-content: center;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: #dff0f7;
+            display: flex;
+            flex-direction: column;
+        }
+
         .top-bar {
             background: linear-gradient(160deg, #2ec6e8 0%, #1a8fb3 100%);
             padding: 20px 20px 52px;
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             border-radius: 0 0 32px 32px;
         }
-        .top-bar a { color: #fff; font-size: 28px; text-decoration: none; padding: 4px 8px; border-radius: 10px; transition: background 0.2s; }
-        .top-bar a:hover { background: rgba(255,255,255,0.2); }
-        .top-bar h2 { color: #fff; font-size: 20px; font-weight: 700; flex: 1; text-align: center; }
-        .top-bar .more { color: #fff; font-size: 22px; padding: 4px 8px; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
-        .top-bar .more:hover { background: rgba(255,255,255,0.2); }
 
-        .content { flex: 1; padding: 40px 16px 100px; margin-top: -24px; }
-
-        .alert-success { background: #d4edda; color: #155724; border-radius: 12px; padding: 12px 16px; font-size: 13px; margin-bottom: 16px; }
-
-        .outer-card { background: #fff; border-radius: 24px; padding: 14px; margin-bottom: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
-
-        .inner-card { border-radius: 18px; padding: 16px; margin-bottom: 12px; }
-        .inner-card.purple { background: linear-gradient(135deg, #6c63ff, #4e46c4); }
-        .inner-card.orange { background: linear-gradient(135deg, #f5a623, #e08c10); }
-        .inner-card.cyan   { background: linear-gradient(135deg, #2ec6e8, #1a8fb3); }
-        .inner-card.red    { background: linear-gradient(135deg, #f06c2b, #d45a1a); }
-
-        .inner-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-        .inner-avatar {
-            width: 52px; height: 52px; border-radius: 14px;
-            background: rgba(255,255,255,0.25); flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
+        .top-bar a {
+            color: #fff;
+            font-size: 28px;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 10px;
+            transition: background 0.2s;
         }
-        .inner-avatar .initials { color: #fff; font-size: 20px; font-weight: 700; }
-        .inner-info { flex: 1; }
-        .inner-nomor { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 2px; }
-        .inner-nama  { color: rgba(255,255,255,0.95); font-size: 13px; font-weight: 500; }
-        .inner-nip   { color: rgba(255,255,255,0.75); font-size: 11px; margin-top: 2px; }
 
-        .badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 50px; white-space: nowrap; align-self: flex-start; }
-        .badge-belum   { background: #ff6b9d; color: #fff; }
-        .badge-selesai { background: #2ecc71; color: #fff; }
+        .top-bar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .top-bar h2 {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            flex: 1;
+            text-align: center;
+        }
+
+        .top-bar .more {
+            color: #fff;
+            font-size: 22px;
+            padding: 4px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .top-bar .more:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px 16px 100px;
+            margin-top: -24px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .outer-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 14px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+        }
+
+        .inner-card {
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .inner-card.purple {
+            background: linear-gradient(135deg, #6c63ff, #4e46c4);
+        }
+
+        .inner-card.orange {
+            background: linear-gradient(135deg, #f5a623, #e08c10);
+        }
+
+        .inner-card.cyan {
+            background: linear-gradient(135deg, #2ec6e8, #1a8fb3);
+        }
+
+        .inner-card.red {
+            background: linear-gradient(135deg, #f06c2b, #d45a1a);
+        }
+
+        .inner-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .inner-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.25);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inner-avatar .initials {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .inner-info {
+            flex: 1;
+        }
+
+        .inner-nomor {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .inner-nama {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .inner-nip {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 50px;
+            white-space: nowrap;
+            align-self: flex-start;
+        }
+
+        .badge-belum {
+            background: #ff6b9d;
+            color: #fff;
+        }
+
+        .badge-selesai {
+            background: #2ecc71;
+            color: #fff;
+        }
 
         .tanggal-row {
-            background: rgba(255,255,255,0.22); border-radius: 50px;
-            padding: 9px 16px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 50px;
+            padding: 9px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .tanggal-row span { color: #fff; font-size: 13px; font-weight: 500; }
+
+        .tanggal-row span {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+        }
 
         .btn-upload {
-            width: 100%; background: #1a8fb3; color: #fff;
-            border: none; border-radius: 50px; padding: 14px;
-            font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            text-decoration: none; transition: background 0.2s, transform 0.1s;
+            width: 100%;
+            background: #1a8fb3;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.1s;
         }
-        .btn-upload:hover { background: #157a9a; }
-        .btn-upload:active { transform: scale(0.97); }
-        .btn-upload svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2; }
-        .btn-upload.uploaded { background: #27ae60; cursor: default; }
 
-        .empty-state { text-align: center; padding: 60px 20px; color: #888; }
-        .empty-state .icon { font-size: 52px; margin-bottom: 12px; }
+        .btn-upload:hover {
+            background: #157a9a;
+        }
 
+        .btn-upload:active {
+            transform: scale(0.97);
+        }
+
+        .btn-upload svg {
+            width: 18px;
+            height: 18px;
+            stroke: #fff;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .btn-upload.uploaded {
+            background: #27ae60;
+            cursor: default;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .empty-state .icon {
+            font-size: 52px;
+            margin-bottom: 12px;
+        }
+
+        /* NAVBAR */
         .navbar {
-            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 430px; background: #fff; border-top: 1px solid #e8e8e8;
-            display: flex; justify-content: space-around; align-items: center;
-            padding: 12px 0 20px; z-index: 100;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: #fff;
+            border-top: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0 20px;
+            z-index: 100;
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 6px 14px; border-radius: 14px; transition: background 0.2s; text-decoration: none; }
-        .nav-item:hover { background: #f0f9fc; }
-        .nav-item svg { width: 26px; height: 26px; stroke: #aaa; fill: none; stroke-width: 1.8; }
-        .nav-item.active svg { stroke: #1a8fb3; }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 14px;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: #f0f9fc;
+        }
+
+        .nav-item svg {
+            width: 26px;
+            height: 26px;
+            stroke: #aaa;
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .nav-item.active svg {
+            stroke: #1a8fb3;
+        }
+
         .nav-plus {
-            width: 50px; height: 50px; background: #1a8fb3; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin-top: -20px; box-shadow: 0 4px 14px rgba(26,143,179,0.4);
-            transition: background 0.2s, transform 0.15s; text-decoration: none;
+            width: 50px;
+            height: 50px;
+            background: #1a8fb3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -20px;
+            box-shadow: 0 4px 14px rgba(26, 143, 179, 0.4);
+            transition: background 0.2s, transform 0.15s;
+            text-decoration: none;
         }
-        .nav-plus:hover { background: #157a9a; transform: scale(1.08); }
-        .nav-plus svg { stroke: #fff; width: 24px; height: 24px; fill: none; stroke-width: 2; }
+
+        .nav-plus:hover {
+            background: #157a9a;
+            transform: scale(1.08);
+        }
+
+        .nav-plus svg {
+            stroke: #fff;
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke-width: 2;
+        }
     </style>
 </head>
+
 <body>
-<div class="shell">
+    <div class="shell">
 
-    <div class="top-bar">
-        <a href="{{ route('kepala.dashboard') }}">&#8249;</a>
-        <h2>Draft SKPP</h2>
-        <span class="more">&#8942;</span>
-    </div>
+        <div class="top-bar">
+            <a href="{{ route('kepala.dashboard') }}">&#8249;</a>
+            <h2>Draft SKPP</h2>
+            <span class="more">&#8942;</span>
+        </div>
 
-    <div class="content">
-        @if(session('success'))
-            <div class="alert-success">{{ session('success') }}</div>
-        @endif
+        <div class="content">
+            @if (session('success'))
+                <div class="alert-success">{{ session('success') }}</div>
+            @endif
 
-        @php $colors = ['purple', 'orange', 'cyan', 'red']; @endphp
+            @php $colors = ['purple', 'orange', 'cyan', 'red']; @endphp
 
-        @forelse($pengajuanList as $i => $item)
-            @php
-                $color       = $colors[$i % 4];
-                $sudahUpload = $item->status_draft === 'sudah_diupload';
-                $nomorSkpp   = 'SKPP ' . str_pad($item->id, 3, '0', STR_PAD_LEFT);
-                $nip         = $item->pencatatan->nip ?? '—';
-                $nama        = $item->pencatatan->nama_lengkap ?? ($item->user->name ?? '—');
-                $inisial     = strtoupper(substr($nama, 0, 1));
-                $tanggal     = $item->updated_at->translatedFormat('j M Y');
-            @endphp
+            @forelse($pengajuanList as $i => $item)
+                @php
+                    $color = $colors[$i % 4];
+                    $sudahUpload = $item->status_draft === 'sudah_diupload';
+                    $nomorSkpp = 'SKPP ' . str_pad($item->id, 3, '0', STR_PAD_LEFT);
+                    $nip = $item->pencatatan->nip ?? '—';
+                    $nama = $item->pencatatan->nama_lengkap ?? ($item->user->name ?? '—');
+                    $inisial = strtoupper(substr($nama, 0, 1));
+                    $tanggal = $item->updated_at->translatedFormat('j M Y');
+                @endphp
 
-            <div class="outer-card">
-                <div class="inner-card {{ $color }}">
-                    <div class="inner-top">
-                        <div class="inner-avatar">
-                            <span class="initials">{{ $inisial }}</span>
+                <div class="outer-card">
+                    <div class="inner-card {{ $color }}">
+                        <div class="inner-top">
+                            <div class="inner-avatar">
+                                <span class="initials">{{ $inisial }}</span>
+                            </div>
+                            <div class="inner-info">
+                                <div class="inner-nomor">{{ $nomorSkpp }}</div>
+                                <div class="inner-nama">{{ $nama }}</div>
+                                <div class="inner-nip">NIP : {{ $nip }}</div>
+                            </div>
+                            <span class="badge {{ $sudahUpload ? 'badge-selesai' : 'badge-belum' }}">
+                                {{ $sudahUpload ? 'Sudah Upload' : 'Belum Upload' }}
+                            </span>
                         </div>
-                        <div class="inner-info">
-                            <div class="inner-nomor">{{ $nomorSkpp }}</div>
-                            <div class="inner-nama">{{ $nama }}</div>
-                            <div class="inner-nip">NIP : {{ $nip }}</div>
+                        <div class="tanggal-row">
+                            <span>Tanggal Disetujui</span>
+                            <span>{{ $tanggal }}</span>
                         </div>
-                        <span class="badge {{ $sudahUpload ? 'badge-selesai' : 'badge-belum' }}">
-                            {{ $sudahUpload ? 'Sudah Upload' : 'Belum Upload' }}
-                        </span>
                     </div>
-                    <div class="tanggal-row">
-                        <span>Tanggal Disetujui</span>
-                        <span>{{ $tanggal }}</span>
-                    </div>
+
+                    <a href="{{ route('kepala.draft.create', $item->id) }}"
+                        class="btn-upload {{ $sudahUpload ? 'uploaded' : '' }}">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        {{ $sudahUpload ? 'Upload Ulang SKPP' : 'Upload File SKPP' }}
+                    </a>
                 </div>
+            @empty
+                <div class="empty-state">
+                    <div class="icon">📄</div>
+                    <p>Belum ada SKPP yang siap diupload.</p>
+                </div>
+            @endforelse
+        </div>
 
-                <a href="{{ route('kepala.draft.create', $item->id) }}"
-                   class="btn-upload {{ $sudahUpload ? 'uploaded' : '' }}">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="17 8 12 3 7 8"/>
-                        <line x1="12" y1="3" x2="12" y2="15"/>
-                    </svg>
-                    {{ $sudahUpload ? 'Upload Ulang SKPP' : 'Upload File SKPP' }}
-                </a>
-            </div>
-        @empty
-            <div class="empty-state">
-                <div class="icon">📄</div>
-                <p>Belum ada SKPP yang siap diupload.</p>
-            </div>
-        @endforelse
+        {{-- NAVBAR --}}
+        <div class="navbar">
+            <a href="{{ route('kepala.dashboard') }}" class="nav-item ">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+            </a>
+            <a href="#" class="nav-plus">
+                <svg viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+            </a>
+            <a href="{{ route('profile.edit') }}" class="nav-item">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                </svg>
+            </a>
+        </div>
+
     </div>
-
-    <div class="navbar">
-        <a href="{{ route('kepala.dashboard') }}" class="nav-item active">
-            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </a>
-        <a href="#" class="nav-plus">
-            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </a>
-        <a href="{{ route('profile.edit') }}" class="nav-item">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-        </a>
-    </div>
-
-</div>
 </body>
+
 </html>

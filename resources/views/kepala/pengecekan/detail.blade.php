@@ -368,6 +368,14 @@
             flex-direction: column;
             align-items: center;
             cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 14px;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: #f0f9fc;
         }
 
         .nav-item svg {
@@ -392,12 +400,21 @@
             justify-content: center;
             margin-top: -20px;
             box-shadow: 0 4px 14px rgba(26, 143, 179, 0.4);
+            transition: background 0.2s, transform 0.15s;
+            text-decoration: none;
+        }
+
+        .nav-plus:hover {
+            background: #157a9a;
+            transform: scale(1.08);
         }
 
         .nav-plus svg {
             stroke: #fff;
             width: 24px;
             height: 24px;
+            fill: none;
+            stroke-width: 2;
         }
     </style>
 </head>
@@ -552,25 +569,26 @@
 
         </div>
 
+        {{-- NAVBAR --}}
         <div class="navbar">
-            <div class="nav-item">
+            <a href="{{ route('kepala.dashboard') }}" class="nav-item">
                 <svg viewBox="0 0 24 24">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                     <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
-            </div>
-            <div class="nav-plus">
+            </a>
+            <a href="#" class="nav-plus">
                 <svg viewBox="0 0 24 24">
                     <line x1="12" y1="5" x2="12" y2="19" />
                     <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
-            </div>
-            <div class="nav-item active">
+            </a>
+            <a href="{{ route('profile.edit') }}" class="nav-item">
                 <svg viewBox="0 0 24 24">
                     <circle cx="12" cy="8" r="4" />
                     <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
                 </svg>
-            </div>
+            </a>
         </div>
 
     </div>

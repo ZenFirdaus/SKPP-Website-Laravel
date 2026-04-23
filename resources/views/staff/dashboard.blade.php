@@ -1,162 +1,15 @@
-{{-- <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Dashboard Staff
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                Halo Staff, {{ auth()->user()->name }}
-            </div>
-        </div>
-    </div>
-</x-app-layout><!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Pencatatan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Dashboard</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #e8f3f8;
-            display: flex;
-            justify-content: center;
-        }
-        .shell {
-            width: 100%;
-            max-width: 430px;
-            min-height: 100vh;
-            background: #dff0f7;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* HEADER */
-        .top-bar {
-            background: linear-gradient(160deg, #2ec6e8 0%, #1a8fb3 100%);
-            padding: 20px 20px 52px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 0 0 32px 32px;
-        }
-        .top-bar a { color: #fff; font-size: 26px; text-decoration: none; line-height: 1; }
-        .top-bar h2 { color: #fff; font-size: 20px; font-weight: 700; flex: 1; text-align: center; }
-        .top-bar .more { color: #fff; font-size: 22px; cursor: pointer; }
-
-        /* CONTENT */
-        .content {
-            flex: 1;
-            padding: 16px 16px 90px;
-            margin-top: -24px;
-        }
-
-        /* ALERT */
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
-
-        /* CARD ITEM */
-        .card-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 18px 16px;
-            border-radius: 22px;
-            margin-bottom: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.15s, box-shadow 0.15s;
-            position: relative;
-            overflow: hidden;
-        }
-        .card-item:hover { transform: scale(1.02); }
-        .card-item:active { transform: scale(0.98); }
-
-        /* warna kartu bergantian */
-        .card-item:nth-child(4n+1) { background: linear-gradient(135deg, #6c63ff, #4e46c4); }
-        .card-item:nth-child(4n+2) { background: linear-gradient(135deg, #f5a623, #e08c10); }
-        .card-item:nth-child(4n+3) { background: linear-gradient(135deg, #2ec6e8, #1a8fb3); }
-        .card-item:nth-child(4n+4) { background: linear-gradient(135deg, #f06c2b, #d45a1a); }
-
-        .card-avatar {
-            width: 58px;
-            height: 58px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.25);
-            flex-shrink: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .card-avatar img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-        .card-avatar .initials {
-            color: #fff;
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .card-info { flex: 1; }
-        .card-nomor {
-            color: #fff;
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-        .card-nama {
-            color: rgba(255,255,255,0.92);
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-        .card-tanggal {
-            color: rgba(255,255,255,0.75);
-            font-size: 12px;
-        }
-
-        .badge {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 5px 11px;
-            border-radius: 50px;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .badge-belum {
-            background: #ff6b9d;
-            color: #fff;
-        }
-        .badge-selesai {
-            background: #2ecc71;
-            color: #fff;
-        }
-
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #888;
-        }
-        .empty-state .icon {
-            font-size: 52px;
-            margin-bottom: 12px;
-        }
-        .empty-state p { font-size: 15px; }
-
         /* NAVBAR */
         .navbar {
             position: fixed;
@@ -173,112 +26,61 @@
             padding: 12px 0 20px;
             z-index: 100;
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .nav-item svg { width: 26px; height: 26px; stroke: #aaa; fill: none; stroke-width: 1.8; }
-        .nav-item.active svg { stroke: #1a8fb3; }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 14px;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: #f0f9fc;
+        }
+
+        .nav-item svg {
+            width: 26px;
+            height: 26px;
+            stroke: #aaa;
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .nav-item.active svg {
+            stroke: #1a8fb3;
+        }
+
         .nav-plus {
-            width: 50px; height: 50px;
+            width: 50px;
+            height: 50px;
             background: #1a8fb3;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-top: -20px;
-            box-shadow: 0 4px 14px rgba(26,143,179,0.4);
+            box-shadow: 0 4px 14px rgba(26, 143, 179, 0.4);
+            transition: background 0.2s, transform 0.15s;
+            text-decoration: none;
         }
-        .nav-plus svg { stroke: #fff; width: 24px; height: 24px; }
+
+        .nav-plus:hover {
+            background: #157a9a;
+            transform: scale(1.08);
+        }
+
+        .nav-plus svg {
+            stroke: #fff;
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke-width: 2;
+        }
     </style>
-</head>
-<body>
-<div class="shell">
-
-    <!-- TOP BAR -->
-    <div class="top-bar">
-        <a href="{{ route('staff.dashboard') }}">&#8249;</a>
-        <h2>Pencatatan</h2>
-        <span class="more">&#8942;</span>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content">
-
-        @if(session('success'))
-            <div class="alert-success">{{ session('success') }}</div>
-        @endif
-
-        @forelse($pengajuanList as $item)
-            @php
-                $sudahDicatat = $item->status_pencatatan === 'selesai_dicatat';
-                $inisial = strtoupper(substr($item->user->name ?? 'U', 0, 1));
-                $nomorSkpp = 'SKPP ' . str_pad($item->id, 3, '0', STR_PAD_LEFT);
-                $tanggal = $item->created_at->translatedFormat('j F Y');
-            @endphp
-
-            <a href="{{ route('staff.pencatatan.create', $item->id) }}" class="card-item">
-                <div class="card-avatar">
-                    @if($item->user->foto ?? false)
-                        <img src="{{ asset('storage/' . $item->user->foto) }}" alt="foto">
-                    @else
-                        <span class="initials">{{ $inisial }}</span>
-                    @endif
-                </div>
-                <div class="card-info">
-                    <div class="card-nomor">{{ $nomorSkpp }}</div>
-                    <div class="card-nama">{{ $item->user->name ?? '-' }}</div>
-                    <div class="card-tanggal">{{ $tanggal }}</div>
-                </div>
-                <span class="badge {{ $sudahDicatat ? 'badge-selesai' : 'badge-belum' }}">
-                    {{ $sudahDicatat ? 'Selesai Dicatat' : 'Belum Dicatat' }}
-                </span>
-            </a>
-        @empty
-            <div class="empty-state">
-                <div class="icon">📋</div>
-                <p>Belum ada pengajuan yang masuk.</p>
-            </div>
-        @endforelse
-
-    </div>
-
-     <!-- NAVBAR -->
-            <div class="absolute bottom-0 w-full bg-white border-t flex justify-around py-4">
-                <div class="text-blue-500">
-                    <a href="{{ route('dashboard') }}">
-                        <svg class="w-7 h-7" fill="currentColor">
-                            <path d="M3 9l9-7 9 7v11H3z" />
-                        </svg>
-                    </a>
-                </div>
-
-                <div>
-                    <svg class="w-8 h-8" fill="none" stroke="black" stroke-width="2">
-                        <path d="M12 5v14M5 12h14" />
-                    </svg>
-                </div>
-
-                <div>
-                    <a href="{{ route('profile.edit') }}">
-                        <svg class="w-7 h-7" fill="none" stroke="black" stroke-width="2">
-                            <circle cx="12" cy="7" r="4" />
-                            <path d="M5 21c1.5-4 12.5-4 14 0" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-</div>
-</body>
-</html> --}}
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Dashboard</title>
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-gray-300">
@@ -413,30 +215,26 @@
 
             </div>
 
-            <!-- NAVBAR -->
-            <div class="absolute bottom-0 w-full bg-white border-t flex justify-around py-4">
-                <div class="text-blue-500">
-                    <a href="{{ route('dashboard') }}">
-                        <svg class="w-7 h-7" fill="currentColor">
-                            <path d="M3 9l9-7 9 7v11H3z" />
-                        </svg>
-                    </a>
-                </div>
-
-                <div>
-                    <svg class="w-8 h-8" fill="none" stroke="black" stroke-width="2">
-                        <path d="M12 5v14M5 12h14" />
+            {{-- NAVBAR --}}
+            <div class="navbar">    
+                <a href="{{ route('staff.dashboard') }}" class="nav-item active">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
                     </svg>
-                </div>
-
-                <div>
-                    <a href="{{ route('profile.edit') }}">
-                        <svg class="w-7 h-7" fill="none" stroke="black" stroke-width="2">
-                            <circle cx="12" cy="7" r="4" />
-                            <path d="M5 21c1.5-4 12.5-4 14 0" />
-                        </svg>
-                    </a>
-                </div>
+                </a>
+                <a href="#" class="nav-plus">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                </a>
+                <a href="{{ route('profile.edit') }}" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                    </svg>
+                </a>
             </div>
 
         </div>

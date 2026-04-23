@@ -6,13 +6,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengajuan</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        /* TOP BAR */
+        .top-bar {
+            background: linear-gradient(160deg, #2ec6e8 0%, #1a8fb3 100%);
+            padding: 20px 20px 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 0 0 32px 32px;
+        }
+
+        .top-bar a {
+            color: #fff;
+            font-size: 26px;
+            text-decoration: none;
+        }
+
+        .top-bar h2 {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            flex: 1;
+            text-align: center;
+        }
+
+        .top-bar .more {
+            color: #fff;
+            font-size: 22px;
+        }
+
+        /* CONTENT */
+        .content {
+            flex: 1;
+            padding: 40px 16px 100px;
+            margin-top: -24px;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: #fff;
+            border-top: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0 20px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 14px;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: #f0f9fc;
+        }
+
+        .nav-item svg {
+            width: 26px;
+            height: 26px;
+            stroke: #aaa;
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .nav-item.active svg {
+            stroke: #1a8fb3;
+        }
+
+        .nav-plus {
+            width: 50px;
+            height: 50px;
+            background: #1a8fb3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -20px;
+            box-shadow: 0 4px 14px rgba(26, 143, 179, 0.4);
+            transition: background 0.2s, transform 0.15s;
+            text-decoration: none;
+        }
+
+        .nav-plus:hover {
+            background: #157a9a;
+            transform: scale(1.08);
+        }
+
+        .nav-plus svg {
+            stroke: #fff;
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke-width: 2;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-300 flex justify-center">
-    <div class="w-full max-w-[430px] min-h-screen bg-[#e5e7eb] rounded-[40px] shadow-2xl overflow-hidden relative">
+    <div class="w-full max-w-[430px] min-h-screen bg-[#e5e7eb] rounded-b-[40px] shadow-2xl overflow-hidden relative">
 
         <!-- HEADER -->
-        <div class="bg-gradient-to-b from-cyan-400 to-blue-600 h-[150px] rounded-b-[40px] px-6 pt-6 text-white relative">
+        {{-- <div class="bg-gradient-to-b from-cyan-400 to-blue-600 h-[150px] rounded-b-[40px] px-6 pt-6 text-white relative">
             <a href="{{ route('mitra.dashboard') }}">
                 <svg class="w-7 h-7 absolute left-6 top-6" fill="none" stroke="white" stroke-width="2">
                     <path d="M15 18l-6-6 6-6" />
@@ -26,11 +135,17 @@
             <div class="flex justify-center items-center h-full">
                 <h1 class="text-3xl font-semibold">Pengajuan</h1>
             </div>
+        </div> --}}
+
+        <div class="top-bar">
+            <a href="{{ route('mitra.dashboard') }}">&#8249;</a>
+            <h2>Pengajuan</h2>
+            <span class="more">&#8942;</span>
         </div>
 
         <!-- FORM -->
         <form action="{{ route('mitra.pengajuan.store') }}" method="POST" enctype="multipart/form-data"
-            class="px-5 mt-[-20px] pb-28 space-y-5">
+            class="px-5 mt-4 pb-28 space-y-5">
             @csrf
 
             <!-- ERROR -->
@@ -181,35 +296,37 @@
 
             <!-- TOMBOL KIRIM -->
             <button type="submit"
-                class="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white py-4 rounded-full text-lg font-semibold shadow-lg hover:opacity-90 transition">
+                class="w-full bg-[#1a8fb3] text-white py-4 rounded-full text-lg font-semibold shadow-lg
+    hover:bg-[#157a9a] hover:shadow-xl
+    active:scale-95
+    transition-all duration-200">
                 Kirim Pengajuan
             </button>
 
         </form>
 
-        <!-- NAVBAR -->
-        <div class="absolute bottom-0 w-full bg-white border-t flex justify-around py-4">
-            <div class="text-blue-500">
-                <a href="{{ route('mitra.dashboard') }}">
-                    <svg class="w-7 h-7" fill="currentColor">
-                        <path d="M3 9l9-7 9 7v11H3z" />
-                    </svg>
-                </a>
-            </div>
-            <div>
-                <svg class="w-8 h-8" fill="none" stroke="black" stroke-width="2">
-                    <path d="M12 5v14M5 12h14" />
+        {{-- NAVBAR --}}
+        <div class="navbar">
+            <a href="{{ route('mitra.dashboard') }}" class="nav-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
-            </div>
-            <div>
-                <a href="{{ route('profile.edit') }}">
-                    <svg class="w-7 h-7" fill="none" stroke="black" stroke-width="2">
-                        <circle cx="12" cy="7" r="4" />
-                        <path d="M5 21c1.5-4 12.5-4 14 0" />
-                    </svg>
-                </a>
-            </div>
+            </a>
+            <a href="#" class="nav-plus">
+                <svg viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+            </a>
+            <a href="{{ route('profile.edit') }}" class="nav-item">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                </svg>
+            </a>
         </div>
+
 
     </div>
 

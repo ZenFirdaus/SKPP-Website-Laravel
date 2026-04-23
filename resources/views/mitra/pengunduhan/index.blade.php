@@ -181,23 +181,74 @@
 
         /* NAVBAR */
         .navbar {
-            position: fixed; bottom: 0;
-            left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 430px;
-            background: #fff; border-top: 1px solid #e8e8e8;
-            display: flex; justify-content: space-around;
-            align-items: center; padding: 12px 0 20px; z-index: 100;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: #fff;
+            border-top: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0 20px;
+            z-index: 100;
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .nav-item svg { width: 26px; height: 26px; stroke: #aaa; fill: none; stroke-width: 1.8; }
-        .nav-item.active svg { stroke: #1a8fb3; }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 14px;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: #f0f9fc;
+        }
+
+        .nav-item svg {
+            width: 26px;
+            height: 26px;
+            stroke: #aaa;
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .nav-item.active svg {
+            stroke: #1a8fb3;
+        }
+
         .nav-plus {
-            width: 50px; height: 50px; background: #1a8fb3;
-            border-radius: 50%; display: flex;
-            align-items: center; justify-content: center;
-            margin-top: -20px; box-shadow: 0 4px 14px rgba(26,143,179,0.4);
+            width: 50px;
+            height: 50px;
+            background: #1a8fb3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -20px;
+            box-shadow: 0 4px 14px rgba(26, 143, 179, 0.4);
+            transition: background 0.2s, transform 0.15s;
+            text-decoration: none;
         }
-        .nav-plus svg { stroke: #fff; width: 24px; height: 24px; }
+
+        .nav-plus:hover {
+            background: #157a9a;
+            transform: scale(1.08);
+        }
+
+        .nav-plus svg {
+            stroke: #fff;
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke-width: 2;
+        }
     </style>
 </head>
 <body>
@@ -290,31 +341,27 @@
         ⬇ Mengunduh SKPP...
     </div>
 
-    <!-- NAVBAR -->
-            <div class="absolute bottom-0 w-full bg-white border-t flex justify-around py-4">
-                <div class="text-blue-500">
-                    <a href="{{ route('dashboard') }}">
-                        <svg class="w-7 h-7" fill="currentColor">
-                            <path d="M3 9l9-7 9 7v11H3z" />
-                        </svg>
-                    </a>
-                </div>
-
-                <div>
-                    <svg class="w-8 h-8" fill="none" stroke="black" stroke-width="2">
-                        <path d="M12 5v14M5 12h14" />
-                    </svg>
-                </div>
-
-                <div>
-                    <a href="{{ route('profile.edit') }}">
-                        <svg class="w-7 h-7" fill="none" stroke="black" stroke-width="2">
-                            <circle cx="12" cy="7" r="4" />
-                            <path d="M5 21c1.5-4 12.5-4 14 0" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
+    {{-- NAVBAR --}}
+        <div class="navbar">
+            <a href="{{ route('mitra.dashboard') }}" class="nav-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+            </a>
+            <a href="#" class="nav-plus">
+                <svg viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+            </a>
+            <a href="{{ route('profile.edit') }}" class="nav-item">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                </svg>
+            </a>
+        </div>
 
 </div>
 

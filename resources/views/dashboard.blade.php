@@ -41,11 +41,13 @@
                         </svg>
 
                         <!-- TITIK TIGA -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="currentColor">
-                            <circle cx="12" cy="5" r="2" />
-                            <circle cx="12" cy="12" r="2" />
-                            <circle cx="12" cy="19" r="2" />
-                        </svg>
+                        <a href="{{ route('panduan') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="currentColor">
+                                <circle cx="12" cy="5" r="2" />
+                                <circle cx="12" cy="12" r="2" />
+                                <circle cx="12" cy="19" r="2" />
+                            </svg>
+                        </a>
 
                     </div>
                 </div>
@@ -141,30 +143,26 @@
 
             </div>
 
-            <!-- NAVBAR -->
-            <div class="absolute bottom-0 w-full bg-white border-t flex justify-around py-4">
-                <div class="text-blue-500">
-                    <a href="{{ route('dashboard') }}">
-                        <svg class="w-7 h-7" fill="currentColor">
-                            <path d="M3 9l9-7 9 7v11H3z" />
-                        </svg>
-                    </a>
-                </div>
-
-                <div>
-                    <svg class="w-8 h-8" fill="none" stroke="black" stroke-width="2">
-                        <path d="M12 5v14M5 12h14" />
+            {{-- NAVBAR --}}
+            <div class="navbar">
+                <a href="{{ url()->previous() }}" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
                     </svg>
-                </div>
-
-                <div>
-                    <a href="{{ route('profile.edit') }}">
-                        <svg class="w-7 h-7" fill="none" stroke="black" stroke-width="2">
-                            <circle cx="12" cy="7" r="4" />
-                            <path d="M5 21c1.5-4 12.5-4 14 0" />
-                        </svg>
-                    </a>
-                </div>
+                </a>
+                <a href="#" class="nav-plus">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                </a>
+                <a href="{{ route('profile.edit') }}" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                    </svg>
+                </a>
             </div>
 
         </div>

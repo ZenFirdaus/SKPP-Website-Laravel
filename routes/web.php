@@ -89,4 +89,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
+// Panduan Pengguna - bisa diakses semua role
+Route::get('/panduan', function () {
+    return view('panduan');
+})->name('panduan');
+
 require __DIR__ . '/auth.php';
