@@ -10,34 +10,36 @@ use Illuminate\Support\Facades\Auth;
 
 class PencatatanController extends Controller
 {
-    /**
-     * List semua pengajuan yang bisa dicatat oleh staff
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $pengajuanList = Pengajuan::with(['user', 'pencatatan'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = Pengajuan::with(['user', 'pencatatan']);
+
+        // Pencarian
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('pencatatan', fn($q2) => $q2->where('nama_lengkap', 'like', "%$search%"))
+                  ->orWhere('id', 'like', "%$search%");
+            });
+        }
+
+        // Filter urutan
+        $sort = $request->get('sort', 'desc');
+        $query->orderBy('id', $sort === 'asc' ? 'asc' : 'desc');
+
+        $pengajuanList = $query->get();
 
         return view('staff.pencatatan.index', compact('pengajuanList'));
     }
 
-    /**
-     * Tampilkan form pencatatan untuk pengajuan tertentu
-     */
     public function create($pengajuanId)
     {
-        $pengajuan = Pengajuan::with(['user', 'pencatatan'])->findOrFail($pengajuanId);
-
-        // Cek apakah sudah pernah dicatat
+        $pengajuan       = Pengajuan::with(['user', 'pencatatan'])->findOrFail($pengajuanId);
         $existingCatatan = Pencatatan::where('pengajuan_id', $pengajuanId)->first();
 
         return view('staff.pencatatan.form', compact('pengajuan', 'existingCatatan'));
     }
 
-    /**
-     * Simpan data pencatatan
-     */
     public function store(Request $request, $pengajuanId)
     {
         $request->validate([
@@ -53,7 +55,6 @@ class PencatatanController extends Controller
 
         $pengajuan = Pengajuan::findOrFail($pengajuanId);
 
-        // Buat atau update pencatatan
         Pencatatan::updateOrCreate(
             ['pengajuan_id' => $pengajuanId],
             [
@@ -65,19 +66,13 @@ class PencatatanController extends Controller
             ]
         );
 
-        // Update status pencatatan di tabel pengajuan
-        $pengajuan->update([
-            'status_pencatatan' => 'selesai_dicatat',
-        ]);
+        $pengajuan->update(['status_pencatatan' => 'selesai_dicatat']);
 
         return redirect()
             ->route('staff.pencatatan.index')
-            ->with('success', 'Data pencatatan berhasil disimpan dan dikirim ke pengecekan.');
+            ->with('success', 'Data pencatatan berhasil disimpan.');
     }
 
-    /**
-     * Lihat detail pencatatan
-     */
     public function show($pengajuanId)
     {
         $pengajuan  = Pengajuan::with(['user', 'pencatatan.staff'])->findOrFail($pengajuanId);

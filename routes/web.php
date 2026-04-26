@@ -71,8 +71,11 @@ Route::middleware(['auth'])->group(function () {
 
             // Pengecekan
             Route::get('/pengecekan', [PengecekanController::class, 'index'])->name('pengecekan.index');
+            Route::get('/pengecekan/trash', [PengecekanController::class, 'trash'])->name('pengecekan.trash');
             Route::get('/pengecekan/{id}', [PengecekanController::class, 'show'])->name('pengecekan.show');
             Route::post('/pengecekan/{id}', [PengecekanController::class, 'store'])->name('pengecekan.store');
+            Route::delete('/pengecekan/{id}/hapus', [PengecekanController::class, 'destroy'])->name('pengecekan.destroy');
+            Route::post('/pengecekan/{id}/pulihkan', [PengecekanController::class, 'restore'])->name('pengecekan.pulihkan');
 
             // Draft SKPP
             Route::get('/draft', [DraftController::class, 'index'])->name('draft.index');

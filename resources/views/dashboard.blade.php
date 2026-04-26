@@ -54,20 +54,19 @@
             </div>
 
             <!-- CARD -->
-            <div class="bg-white -mt-16 mx-4 p-6 shadow-lg rounded-2xl">
+            <div class="bg-white -mt-16 mx-4 p-6 shadow-lg rounded-2xl relative overflow-hidden">
 
-                <div class="flex justify-between items-center">
-                    <div class="w-2/3">
-                        <h2 class="text-xl font-bold text-gray-800">
-                            Selamat Datang di SIMUDAH
-                        </h2>
-                        <p class="text-gray-500 text-base mt-2">
-                            Pengajuan, pengecekan, hingga arsip dalam satu aplikasi
-                        </p>
-                    </div>
-
-                    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" class="w-24">
+                <div class="w-2/3">
+                    <h2 class="text-xl font-bold text-gray-800">
+                        Selamat Datang di SIMUDAH
+                    </h2>
+                    <p class="text-gray-500 text-base mt-2">
+                        Pengajuan, pengecekan, hingga arsip dalam satu aplikasi
+                    </p>
                 </div>
+
+                <!-- Gambar pojok kanan bawah -->
+                <img src="{{ asset('image/printer.png') }}" class="w-56 absolute -bottom-2 -right-1">
 
             </div>
 

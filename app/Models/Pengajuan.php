@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pengajuan extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'pengajuans';
 
@@ -26,6 +27,8 @@ class Pengajuan extends Model
         'status_arsip',
         'status_draft',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function user()
     {

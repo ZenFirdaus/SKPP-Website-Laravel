@@ -11,33 +11,35 @@ use Illuminate\Support\Facades\Storage;
 
 class DraftController extends Controller
 {
-    /**
-     * List pengajuan yang sudah disetujui - siap diupload draft SKPP
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $pengajuanList = Pengajuan::with(['user', 'pencatatan', 'draftSkpp'])
-            ->where('status_pengecekan', 'disetujui')
-            ->orderBy('updated_at', 'desc')
-            ->get();
+        $query = Pengajuan::with(['user', 'pencatatan', 'draftSkpp'])
+            ->where('status_pengecekan', 'disetujui');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('pencatatan', fn($q2) => $q2->where('nama_lengkap', 'like', "%$search%"))
+                  ->orWhere('id', 'like', "%$search%");
+            });
+        }
+
+        $sort = $request->get('sort', 'desc');
+        $query->orderBy('id', $sort === 'asc' ? 'asc' : 'desc');
+
+        $pengajuanList = $query->get();
 
         return view('kepala.draft.index', compact('pengajuanList'));
     }
 
-    /**
-     * Form upload draft SKPP
-     */
     public function create($pengajuanId)
     {
-        $pengajuan  = Pengajuan::with(['user', 'pencatatan', 'draftSkpp'])->findOrFail($pengajuanId);
-        $draftSkpp  = DraftSkpp::where('pengajuan_id', $pengajuanId)->first();
+        $pengajuan = Pengajuan::with(['user', 'pencatatan', 'draftSkpp'])->findOrFail($pengajuanId);
+        $draftSkpp = DraftSkpp::where('pengajuan_id', $pengajuanId)->first();
 
         return view('kepala.draft.form', compact('pengajuan', 'draftSkpp'));
     }
 
-    /**
-     * Simpan upload file SKPP
-     */
     public function store(Request $request, $pengajuanId)
     {
         $request->validate([
@@ -50,16 +52,13 @@ class DraftController extends Controller
 
         $pengajuan = Pengajuan::findOrFail($pengajuanId);
 
-        // Hapus file lama jika ada
         $existing = DraftSkpp::where('pengajuan_id', $pengajuanId)->first();
         if ($existing && Storage::disk('public')->exists($existing->file_skpp)) {
             Storage::disk('public')->delete($existing->file_skpp);
         }
 
-        // Simpan file baru
         $path = $request->file('file_skpp')->store('draft_skpp', 'public');
 
-        // Simpan ke database
         DraftSkpp::updateOrCreate(
             ['pengajuan_id' => $pengajuanId],
             [
@@ -69,7 +68,6 @@ class DraftController extends Controller
             ]
         );
 
-        // Update status draft di pengajuan
         $pengajuan->update(['status_draft' => 'sudah_diupload']);
 
         return redirect()

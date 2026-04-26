@@ -4,29 +4,35 @@ namespace App\Http\Controllers\Mitra;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pengajuan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PengunduhController extends Controller
 {
-    /**
-     * List SKPP milik mitra yang sudah diarsipkan & dikirim
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $pengajuanList = Pengajuan::with(['pencatatan', 'arsip', 'draftSkpp'])
+        $query = Pengajuan::with(['pencatatan', 'arsip', 'draftSkpp'])
             ->where('user_id', Auth::id())
             ->where('status_arsip', 'diarsipkan')
-            ->whereHas('arsip', fn($q) => $q->where('dikirim_ke_mitra', true))
-            ->orderBy('updated_at', 'desc')
-            ->get();
+            ->whereHas('arsip', fn($q) => $q->where('dikirim_ke_mitra', true));
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('pencatatan', fn($q2) => $q2->where('nama_lengkap', 'like', "%$search%"))
+                  ->orWhere('id', 'like', "%$search%");
+            });
+        }
+
+        $sort = $request->get('sort', 'desc');
+        $query->orderBy('id', $sort === 'asc' ? 'asc' : 'desc');
+
+        $pengajuanList = $query->get();
 
         return view('mitra.pengunduhan.index', compact('pengajuanList'));
     }
 
-    /**
-     * Download file SKPP dari draft yang diupload kepala
-     */
     public function unduh($pengajuanId)
     {
         $pengajuan = Pengajuan::with('draftSkpp')
@@ -34,7 +40,6 @@ class PengunduhController extends Controller
             ->where('status_arsip', 'diarsipkan')
             ->findOrFail($pengajuanId);
 
-        // Ambil file dari draft SKPP yang diupload kepala
         if ($pengajuan->draftSkpp && Storage::disk('public')->exists($pengajuan->draftSkpp->file_skpp)) {
             return Storage::disk('public')->download(
                 $pengajuan->draftSkpp->file_skpp,
