@@ -12,6 +12,7 @@ use App\Http\Controllers\Kepala\PengecekanController;
 use App\Http\Controllers\Kepala\DraftController;
 use App\Http\Controllers\Mitra\PengunduhController;
 
+
 // ================= AUTH =================
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
@@ -90,6 +91,8 @@ Route::middleware(['auth'])->group(function () {
 
     // ================= LOGOUT =================
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    
 });
 
 // Panduan Pengguna - bisa diakses semua role
@@ -98,3 +101,4 @@ Route::get('/panduan', function () {
 })->name('panduan');
 
 require __DIR__ . '/auth.php';
+
