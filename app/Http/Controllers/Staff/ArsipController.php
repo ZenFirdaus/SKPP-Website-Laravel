@@ -18,15 +18,20 @@ class ArsipController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->whereHas('pencatatan', fn($q2) => $q2->where('nama_lengkap', 'like', "%$search%"))
-                  ->orWhere('id', 'like', "%$search%");
+                $q->whereHas('pencatatan', fn ($q2) => $q2->where('nama_lengkap', 'like', "%{$search}%"))
+                    ->orWhereHas('user', fn ($q2) => $q2->where('name', 'like', "%{$search}%"))
+                    ->orWhere('id', 'like', "%{$search}%");
             });
+        }
+
+        if ($request->filled('status_arsip')) {
+            $query->where('status_arsip', $request->status_arsip);
         }
 
         $sort = $request->get('sort', 'desc');
         $query->orderBy('id', $sort === 'asc' ? 'asc' : 'desc');
 
-        $pengajuanList = $query->get();
+        $pengajuanList = $query->paginate(10)->withQueryString();
 
         return view('staff.pengarsipan.index', compact('pengajuanList'));
     }
@@ -39,29 +44,34 @@ class ArsipController extends Controller
             return response()->json(['success' => false, 'message' => 'SKPP ini sudah diarsipkan.']);
         }
 
-        if (!$pengajuan->draftSkpp) {
+        if (! $pengajuan->draftSkpp) {
             return response()->json(['success' => false, 'message' => 'File SKPP belum diupload oleh kepala.']);
         }
 
         Arsip::updateOrCreate(
             ['pengajuan_id' => $pengajuanId],
             [
-                'diarsipkan_oleh'  => Auth::id(),
+                'diarsipkan_oleh' => Auth::id(),
                 'dikirim_ke_mitra' => false,
-                'tanggal_selesai'  => now(),
-                'tanggal_arsip'    => now(),
+                'tanggal_selesai' => now(),
+                'tanggal_arsip' => now(),
             ]
         );
 
-        $pengajuan->update(['status_arsip' => 'diarsipkan']);
+        $pengajuan->update([
+            'status_arsip' => 'diarsipkan',
+        ]);
 
         return response()->json(['success' => true, 'message' => 'SKPP berhasil diarsipkan.']);
     }
 
     public function kirimMitra(Request $request, $pengajuanId)
     {
+        $pengajuan = Pengajuan::findOrFail($pengajuanId);
         $arsip = Arsip::where('pengajuan_id', $pengajuanId)->firstOrFail();
+
         $arsip->update(['dikirim_ke_mitra' => true]);
+        $pengajuan->update(['status' => 'selesai']);
 
         return response()->json(['success' => true, 'message' => 'SKPP berhasil dikirim ke mitra kerja.']);
     }

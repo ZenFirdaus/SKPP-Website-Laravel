@@ -483,7 +483,14 @@
                                 <polyline points="14 2 14 8 20 8" />
                             </svg>
                         </div>
-                        <span class="doc-name">Slip gaji</span>
+                        <div>
+                            <span class="doc-name">Slip gaji</span>
+                            @if($pengajuan->file_slip_gaji)
+                                <a href="{{ route('dokumen.view', [$pengajuan->id, 'slip_gaji']) }}" target="_blank" style="display:block; font-size:11px; color:#1a8fb3; font-weight:600; text-decoration:underline; margin-top:2px;">Lihat File</a>
+                            @else
+                                <span style="display:block; font-size:11px; color:#999;">Tidak diunggah</span>
+                            @endif
+                        </div>
                     </div>
                     <div class="radio-group">
                         <label class="radio-opt">
@@ -508,7 +515,14 @@
                                 <polyline points="14 2 14 8 20 8" />
                             </svg>
                         </div>
-                        <span class="doc-name">SK</span>
+                        <div>
+                            <span class="doc-name">SK</span>
+                            @if($pengajuan->file_sk)
+                                <a href="{{ route('dokumen.view', [$pengajuan->id, 'sk']) }}" target="_blank" style="display:block; font-size:11px; color:#1a8fb3; font-weight:600; text-decoration:underline; margin-top:2px;">Lihat File</a>
+                            @else
+                                <span style="display:block; font-size:11px; color:#999;">Tidak diunggah</span>
+                            @endif
+                        </div>
                     </div>
                     <div class="radio-group">
                         <label class="radio-opt">
@@ -533,7 +547,14 @@
                                 <polyline points="14 2 14 8 20 8" />
                             </svg>
                         </div>
-                        <span class="doc-name">Surat Pengantar</span>
+                        <div>
+                            <span class="doc-name">Surat Pengantar</span>
+                            @if($pengajuan->file_skpp)
+                                <a href="{{ route('dokumen.view', [$pengajuan->id, 'skpp']) }}" target="_blank" style="display:block; font-size:11px; color:#1a8fb3; font-weight:600; text-decoration:underline; margin-top:2px;">Lihat File</a>
+                            @else
+                                <span style="display:block; font-size:11px; color:#999;">Tidak diunggah</span>
+                            @endif
+                        </div>
                     </div>
                     <div class="radio-group">
                         <label class="radio-opt">

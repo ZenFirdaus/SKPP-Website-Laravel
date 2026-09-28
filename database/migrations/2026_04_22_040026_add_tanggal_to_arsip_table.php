@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::table('arsip', function (Blueprint $table) {
-        //     // $table->timestamp('tanggal_selesai')->nullable()->after('dikirim_ke_mitra');
-        //     $table->timestamp('tanggal_arsip')->nullable()->after('tanggal_selesai');
-        //     $table->foreignId('diarsipkan_oleh')->nullable()->after('pengajuan_id')
-        //         ->constrained('users')->onDelete('cascade');
-        // });
+        Schema::table('arsip', function (Blueprint $table) {
+            if (! Schema::hasColumn('arsip', 'tanggal_selesai')) {
+                $table->timestamp('tanggal_selesai')->nullable()->after('dikirim_ke_mitra');
+            }
+            if (! Schema::hasColumn('arsip', 'tanggal_arsip')) {
+                $table->timestamp('tanggal_arsip')->nullable()->after('tanggal_selesai');
+            }
+        });
     }
 
     public function down(): void
     {
-        // Schema::table('arsip', function (Blueprint $table) {
-        //     $table->dropColumn(['tanggal_arsip', 'diarsipkan_oleh']);
-        // });
+        Schema::table('arsip', function (Blueprint $table) {
+            $table->dropColumn(['tanggal_selesai', 'tanggal_arsip']);
+        });
     }
 };

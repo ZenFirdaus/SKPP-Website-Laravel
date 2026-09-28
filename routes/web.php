@@ -1,38 +1,44 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Kepala\DraftController;
+use App\Http\Controllers\Kepala\PengecekanController;
+use App\Http\Controllers\Mitra\PengunduhController;
 use App\Http\Controllers\PengajuanController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Staff\ArsipController;
 use App\Http\Controllers\Staff\PencatatanController;
 use App\Http\Controllers\Staff\StaffController;
-use App\Http\Controllers\Staff\ArsipController;
-use App\Http\Controllers\Kepala\PengecekanController;
-use App\Http\Controllers\Kepala\DraftController;
-use App\Http\Controllers\Mitra\PengunduhController;
-
-
-// ================= AUTH =================
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
-Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
+// Panduan Pengguna - bisa diakses publik atau pengguna login
+Route::get('/panduan', function () {
+    return view('panduan');
+})->name('panduan');
 
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return match (Auth::user()?->role) {
+            'staff' => redirect()->route('staff.dashboard'),
+            'kepala' => redirect()->route('kepala.dashboard'),
+            default => redirect()->route('mitra.dashboard'),
+        };
     })->name('dashboard');
+
+    // Secure document viewing route
+    Route::get('/dokumen/{id}/{type}', [PengajuanController::class, 'viewDocument'])->name('dokumen.view');
 
     // ================= MITRA =================
     Route::middleware(['role:mitra'])
         ->prefix('mitra')
         ->name('mitra.')
         ->group(function () {
-            Route::get('/dashboard', fn() => view('mitra.dashboard'))->name('dashboard');
+            Route::get('/dashboard', [PengajuanController::class, 'mitraDashboard'])->name('dashboard');
 
             // Pengajuan
             Route::get('/pengajuan/status', [PengajuanController::class, 'status'])->name('pengajuan.status');
@@ -68,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
         ->prefix('kepala')
         ->name('kepala.')
         ->group(function () {
-            Route::get('/dashboard', fn() => view('kepala.dashboard'))->name('dashboard');
+            Route::get('/dashboard', [PengecekanController::class, 'kepalaDashboard'])->name('dashboard');
 
             // Pengecekan
             Route::get('/pengecekan', [PengecekanController::class, 'index'])->name('pengecekan.index');
@@ -88,17 +94,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // ================= LOGOUT =================
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-    
 });
 
-// Panduan Pengguna - bisa diakses semua role
-Route::get('/panduan', function () {
-    return view('panduan');
-})->name('panduan');
-
-require __DIR__ . '/auth.php';
-
+require __DIR__.'/auth.php';

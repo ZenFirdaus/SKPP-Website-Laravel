@@ -15,20 +15,21 @@ class PengunduhController extends Controller
         $query = Pengajuan::with(['pencatatan', 'arsip', 'draftSkpp'])
             ->where('user_id', Auth::id())
             ->where('status_arsip', 'diarsipkan')
-            ->whereHas('arsip', fn($q) => $q->where('dikirim_ke_mitra', true));
+            ->whereHas('arsip', fn ($q) => $q->where('dikirim_ke_mitra', true));
 
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->whereHas('pencatatan', fn($q2) => $q2->where('nama_lengkap', 'like', "%$search%"))
-                  ->orWhere('id', 'like', "%$search%");
+                $q->whereHas('pencatatan', fn ($q2) => $q2->where('nama_lengkap', 'like', "%{$search}%"))
+                    ->orWhere('nama_perusahaan', 'like', "%{$search}%")
+                    ->orWhere('id', 'like', "%{$search}%");
             });
         }
 
         $sort = $request->get('sort', 'desc');
         $query->orderBy('id', $sort === 'asc' ? 'asc' : 'desc');
 
-        $pengajuanList = $query->get();
+        $pengajuanList = $query->paginate(10)->withQueryString();
 
         return view('mitra.pengunduhan.index', compact('pengajuanList'));
     }
@@ -43,7 +44,7 @@ class PengunduhController extends Controller
         if ($pengajuan->draftSkpp && Storage::disk('public')->exists($pengajuan->draftSkpp->file_skpp)) {
             return Storage::disk('public')->download(
                 $pengajuan->draftSkpp->file_skpp,
-                'SKPP_' . str_pad($pengajuan->id, 3, '0', STR_PAD_LEFT) . '.pdf'
+                'SKPP_'.str_pad($pengajuan->id, 3, '0', STR_PAD_LEFT).'.pdf'
             );
         }
 

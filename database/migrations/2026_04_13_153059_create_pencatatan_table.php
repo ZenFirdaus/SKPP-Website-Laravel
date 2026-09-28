@@ -21,7 +21,7 @@ return new class extends Migration
 
         // Tambah kolom status ke tabel pengajuans jika belum ada
         Schema::table('pengajuans', function (Blueprint $table) {
-            if (!Schema::hasColumn('pengajuans', 'status_pencatatan')) {
+            if (! Schema::hasColumn('pengajuans', 'status_pencatatan')) {
                 $table->enum('status_pencatatan', ['belum_dicatat', 'selesai_dicatat'])
                     ->default('belum_dicatat')
                     ->after('status');

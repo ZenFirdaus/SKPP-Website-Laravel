@@ -1,14 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Dashboard</title>
-
+    <title>Dashboard Kepala - SKPP</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #dff0f7;
+            display: flex;
+            justify-content: center;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: #f3f7fa;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header-bg {
+            background: linear-gradient(160deg, #2ec6e8 0%, #1a8fb3 100%);
+            padding: 24px 20px 48px;
+            color: #fff;
+            border-radius: 0 0 32px 32px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .user-text .greeting {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .user-text .name {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .header-actions a {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .welcome-card {
+            background: #fff;
+            margin: -24px 16px 16px;
+            border-radius: 20px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .welcome-card h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a8fb3;
+            margin-bottom: 4px;
+        }
+
+        .welcome-card p {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: #fff;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .stat-icon.review {
+            background: linear-gradient(135deg, #f5a623, #f7ba59);
+        }
+
+        .stat-icon.setuju {
+            background: linear-gradient(135deg, #2ecc71, #54e390);
+        }
+
+        .stat-icon.tolak {
+            background: linear-gradient(135deg, #e74c3c, #f17062);
+        }
+
+        .stat-icon.draft {
+            background: linear-gradient(135deg, #4e63e8, #6c7cf7);
+        }
+
+        .stat-num {
+            font-size: 20px;
+            font-weight: 800;
+            color: #222;
+            line-height: 1;
+        }
+
+        .stat-lbl {
+            font-size: 11px;
+            color: #777;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* SHORTCUTS */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .shortcuts-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .shortcut-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 10px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .shortcut-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 143, 179, 0.15);
+        }
+
+        .shortcut-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shortcut-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .shortcut-item span {
+            font-size: 11px;
+            font-weight: 700;
+            color: #444;
+        }
+
+        /* LIST */
+        .list-section {
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .list-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .list-item:hover {
+            background: #fbfdfe;
+        }
+
+        .list-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 2px;
+        }
+
+        .list-info p {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 50px;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
         /* NAVBAR */
         .navbar {
             position: fixed;
@@ -82,161 +366,154 @@
     </style>
 </head>
 
-<body class="bg-gray-300">
-    <div class="w-full flex justify-center">
-
-        <!-- CONTAINER -->
-        <div class="w-full max-w-[430px] min-h-screen bg-[#f3f4f6] rounded-[40px] shadow-2xl overflow-hidden relative">
-
-            <!-- HEADER -->
-            <div class="bg-gradient-to-r from-cyan-400 to-blue-500 px-6 pt-6 pb-20 text-white">
-
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <a href="{{ route('profile.edit') }}">
-                            <div class="w-14 h-14 bg-white rounded-full"></div>
-                        </a>
-                        <div>
-                            <p class="text-base">Halo,</p>
-                            <p class="font-bold text-lg">{{ Auth::user()->name }}</p>
-                        </div>
+<body>
+    <div class="shell">
+        <div class="header-bg">
+            <div class="header-top">
+                <div class="user-info">
+                    <a href="{{ route('profile.edit') }}" class="avatar">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </a>
+                    <div class="user-text">
+                        <p class="greeting">Halo, Kepala Staff</p>
+                        <p class="name">{{ Auth::user()->name }}</p>
                     </div>
+                </div>
+                <div class="header-actions">
+                    <a href="{{ route('panduan') }}">Panduan</a>
+                </div>
+            </div>
+        </div>
 
-                    <!-- ICON KANAN -->
-                    <div class="flex gap-4 items-center">
+        <div class="welcome-card">
+            <h2>Kewenangan Persetujuan</h2>
+            <p>Tinjau dokumen pengajuan pegawai dan terbitkan SKPP resmi.</p>
+        </div>
 
-                        <!-- SETTING -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="none"
-                            stroke="currentColor" stroke-width="2">
-                            <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                            <path
-                                d="M2 12h2m16 0h2M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4l1.4 1.4M4.9 19.1l1.4-1.4m11.4-11.4l1.4-1.4" />
-                        </svg>
-
-                        <!-- TITIK TIGA -->
-                        <a href="{{ route('panduan') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="currentColor">
-                                <circle cx="12" cy="5" r="2" />
-                                <circle cx="12" cy="12" r="2" />
-                                <circle cx="12" cy="19" r="2" />
-                            </svg>
-                        </a>
-
-                    </div>
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon review">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
+                <div>
+                    <div class="stat-num">{{ $stats['menunggu_review'] }}</div>
+                    <div class="stat-lbl">Menunggu Review</div>
                 </div>
             </div>
 
-            <!-- CARD -->
-            <div class="bg-white -mt-16 mx-4 p-6 shadow-lg rounded-2xl relative overflow-hidden">
-
-                <div class="w-2/3">
-                    <h2 class="text-xl font-bold text-gray-800">
-                        Selamat Datang di SIMUDAH
-                    </h2>
-                    <p class="text-gray-500 text-base mt-2">
-                        Pengajuan, pengecekan, hingga arsip dalam satu aplikasi
-                    </p>
+            <div class="stat-card">
+                <div class="stat-icon setuju">
+                    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 </div>
-
-                <!-- Gambar pojok kanan bawah -->
-                <img src="{{ asset('image/printer.png') }}" class="w-56 absolute -bottom-2 -right-1">
-
+                <div>
+                    <div class="stat-num">{{ $stats['disetujui'] }}</div>
+                    <div class="stat-lbl">Disetujui</div>
+                </div>
             </div>
 
-            <!-- MENU -->
-            <div class="p-6 grid grid-cols-2 gap-6 mt-2">
-
-                <!-- Pengajuan -->
-                <a href="{{ route('mitra.pengajuan.index') }}" class="transform transition hover:scale-105">
-                    <div
-                        class="bg-indigo-500 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
-                        <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
-                            <path d="M7 2h6l5 5v13H7z" />
-                        </svg>
-                        <p class="text-lg font-semibold">Pengajuan</p>
-                    </div>
-                </a>
-
-                <!-- Catat Data -->
-                <a href="{{ route('staff.pencatatan.index') }}" class="transform transition hover:scale-105">
-                    <div
-                        class="bg-orange-400 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
-                        <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
-                            <path d="M16.5 3.5 7 19l-4 1 1-4Z" />
-                        </svg>
-                        <p class="text-lg font-semibold">Catat Data</p>
-                    </div>
-                </a>
-
-                <!-- Pengecekan -->
-                <a href="{{ route('kepala.pengecekan.index') }}" class="transform transition hover:scale-105">
-                    <div
-                        class="bg-green-500 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
-                        <svg class="w-20 h-20" fill="none" stroke="white" stroke-width="2">
-                            <path d="M20 6 9 17l-5-5" />
-                        </svg>
-                        <p class="text-lg font-semibold">Pengecekan</p>
-                    </div>
-                </a>
-
-                <!-- Draft -->
-                <a href="{{ route('kepala.draft.index') }}" class="transform transition hover:scale-105">
-                    <div
-                        class="bg-yellow-400 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
-                        <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
-                            <path d="M6 2h8l4 4v14H6z" />
-                        </svg>
-                        <p class="text-lg font-semibold">Draft SKPP</p>
-                    </div>
-                </a>
-
-                <!-- Arsip -->
-                <a href="{{ route('staff.pengarsipan.index') }}" class="transform transition hover:scale-105">
-                    <div
-                        class="bg-blue-400 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
-                        <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
-                            <path d="M3 7h18v13H3z" />
-                            <path d="M3 7l3-4h12l3 4" />
-                        </svg>
-                        <p class="text-lg font-semibold">Arsip</p>
-                    </div>
-                </a>
-
-                <!-- Pengunduhan -->
-                <a href="{{ route('mitra.pengunduhan.index') }}" class="transform transition hover:scale-105">
-                    <div
-                        class="bg-pink-400 p-8 text-white shadow-lg rounded-2xl h-[170px] flex flex-col justify-between">
-                        <svg class="w-16 h-16" fill="none" stroke="white" stroke-width="2">
-                            <path d="M4 19h16M4 15h10M4 11h16M4 7h10" />
-                        </svg>
-                        <p class="text-lg font-semibold">Unduh SKPP</p>
-                    </div>
-                </a>
-
+            <div class="stat-card">
+                <div class="stat-icon tolak">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <div>
+                    <div class="stat-num">{{ $stats['ditolak'] }}</div>
+                    <div class="stat-lbl">Ditolak</div>
+                </div>
             </div>
 
-            {{-- NAVBAR --}}
-            <div class="navbar">
-                <a href="{{ route('kepala.dashboard') }}" class="nav-item active">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                        <polyline points="9 22 9 12 15 12 15 22" />
-                    </svg>
-                </a>
-                <a href="#" class="nav-plus">
-                    <svg viewBox="0 0 24 24">
-                        <line x1="12" y1="5" x2="12" y2="19" />
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                    </svg>
-                </a>
-                <a href="{{ route('profile.edit') }}" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="8" r="4" />
-                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                    </svg>
-                </a>
+            <div class="stat-card">
+                <div class="stat-icon draft">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div>
+                    <div class="stat-num">{{ $stats['perlu_draft'] }}</div>
+                    <div class="stat-lbl">Perlu Upload SKPP</div>
+                </div>
             </div>
+        </div>
 
+        <!-- SHORTCUTS -->
+        <div class="section-header">
+            <span class="section-title">Menu Utama</span>
+        </div>
+        <div class="shortcuts-row">
+            <a href="{{ route('kepala.pengecekan.index') }}" class="shortcut-item">
+                <div class="shortcut-icon" style="background: #eaf6fb;">
+                    <svg viewBox="0 0 24 24" stroke="#1a8fb3"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                </div>
+                <span>Pengecekan</span>
+            </a>
+
+            <a href="{{ route('kepala.draft.index') }}" class="shortcut-item">
+                <div class="shortcut-icon" style="background: #eef2ff;">
+                    <svg viewBox="0 0 24 24" stroke="#4e63e8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <span>Draft SKPP</span>
+            </a>
+
+            <a href="{{ route('kepala.pengecekan.trash') }}" class="shortcut-item">
+                <div class="shortcut-icon" style="background: #fdecea;">
+                    <svg viewBox="0 0 24 24" stroke="#e74c3c"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+                </div>
+                <span>Sampah</span>
+            </a>
+        </div>
+
+        <!-- MENUNGGU PERSETUJUAN -->
+        <div class="section-header">
+            <span class="section-title">Menunggu Persetujuan</span>
+            <a href="{{ route('kepala.pengecekan.index') }}" style="font-size: 12px; color: #1a8fb3; font-weight: 600; text-decoration: none;">Semua ›</a>
+        </div>
+        <div class="list-section">
+            @forelse($menungguPersetujuan as $item)
+                <a href="{{ route('kepala.pengecekan.show', $item->id) }}" class="list-item">
+                    <div class="list-info">
+                        <h4>SKPP #{{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</h4>
+                        <p>{{ $item->pencatatan->nama_lengkap ?? $item->nama_perusahaan }} &bull; NIP: {{ $item->pencatatan->nip ?? '—' }}</p>
+                    </div>
+                    <span class="badge badge-warning">Review</span>
+                </a>
+            @empty
+                <div style="background: #fff; border-radius: 16px; padding: 20px; text-align: center; color: #888; font-size: 13px;">
+                    Tidak ada pengajuan yang menunggu persetujuan saat ini.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- RIWAYAT PENGECEKAN -->
+        <div class="section-header">
+            <span class="section-title">Riwayat Keputusan Terbaru</span>
+        </div>
+        <div class="list-section" style="padding-bottom: 90px;">
+            @forelse($riwayatPengecekan as $item)
+                <a href="{{ route('kepala.pengecekan.show', $item->id) }}" class="list-item">
+                    <div class="list-info">
+                        <h4>SKPP #{{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</h4>
+                        <p>{{ $item->pencatatan->nama_lengkap ?? $item->nama_perusahaan }} &bull; {{ $item->updated_at->translatedFormat('d M Y') }}</p>
+                    </div>
+                    <span class="badge {{ $item->status_pengecekan === 'disetujui' ? 'badge-success' : 'badge-danger' }}">
+                        {{ ucfirst($item->status_pengecekan) }}
+                    </span>
+                </a>
+            @empty
+                <div style="background: #fff; border-radius: 16px; padding: 20px; text-align: center; color: #888; font-size: 13px;">
+                    Belum ada riwayat pengecekan.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- NAVBAR -->
+        <div class="navbar">
+            <a href="{{ route('kepala.dashboard') }}" class="nav-item active">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </a>
+            <a href="{{ route('kepala.pengecekan.index') }}" class="nav-plus" title="Pengecekan">
+                <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </a>
+            <a href="{{ route('profile.edit') }}" class="nav-item">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </a>
         </div>
     </div>
 </body>

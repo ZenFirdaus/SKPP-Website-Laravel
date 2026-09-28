@@ -3,12 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengajuan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Daftar Pengajuan - SKPP</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     <style>
-        /* TOP BAR */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #dff0f7;
+            display: flex;
+            justify-content: center;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: #dff0f7;
+            display: flex;
+            flex-direction: column;
+        }
+
         .top-bar {
             background: linear-gradient(160deg, #2ec6e8 0%, #1a8fb3 100%);
             padding: 20px 20px 52px;
@@ -20,8 +40,15 @@
 
         .top-bar a {
             color: #fff;
-            font-size: 26px;
+            font-size: 28px;
             text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 10px;
+            transition: background 0.2s;
+        }
+
+        .top-bar a:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .top-bar h2 {
@@ -32,16 +59,276 @@
             text-align: center;
         }
 
-        .top-bar .more {
-            color: #fff;
-            font-size: 22px;
-        }
-
-        /* CONTENT */
         .content {
             flex: 1;
-            padding: 40px 16px 100px;
+            padding: 16px 16px 100px;
             margin-top: -24px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .alert-error {
+            background: #fdecea;
+            color: #c0392b;
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        /* SEARCH & FILTER */
+        .search-wrap {
+            margin-bottom: 16px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 44px 12px 18px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            font-family: inherit;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 2px #2ec6e8;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            stroke: #aaa;
+            fill: none;
+            stroke-width: 2;
+            pointer-events: none;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .filter-btn {
+            padding: 8px 14px;
+            border-radius: 50px;
+            border: none;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            background: #fff;
+            color: #666;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .filter-btn.active {
+            background: #1a8fb3;
+            color: #fff;
+        }
+
+        /* BTN TAMBAH */
+        .btn-tambah {
+            width: 100%;
+            background: #1a8fb3;
+            color: #fff;
+            border-radius: 50px;
+            padding: 14px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(26, 143, 179, 0.35);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-tambah:hover {
+            background: #157a9a;
+        }
+
+        .btn-tambah:active {
+            transform: scale(0.98);
+        }
+
+        .btn-tambah svg {
+            width: 18px;
+            height: 18px;
+            stroke: #fff;
+            fill: none;
+            stroke-width: 2.5;
+        }
+
+        /* CARD LIST */
+        .card-item {
+            background: #fff;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .card-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-id {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a8fb3;
+        }
+
+        .card-date {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .card-body {
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        .card-keperluan {
+            font-size: 13px;
+            color: #555;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 50px;
+            text-transform: capitalize;
+        }
+
+        .badge-menunggu {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-diproses {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .badge-disetujui {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-ditolak {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-selesai {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            color: #555;
+            background: #fafafa;
+        }
+
+        .btn-action.primary {
+            border-color: #1a8fb3;
+            color: #1a8fb3;
+            background: #eaf6fb;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .empty-state .icon {
+            font-size: 52px;
+            margin-bottom: 12px;
+        }
+
+        /* PAGINATION */
+        .pagination-wrap {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination-wrap nav {
+            display: flex;
+            gap: 6px;
         }
 
         /* NAVBAR */
@@ -117,193 +404,91 @@
     </style>
 </head>
 
-<body class="bg-gray-300 flex justify-center">
-    <div class="w-full max-w-[430px] min-h-screen bg-[#e5e7eb] rounded-b-[40px] shadow-2xl overflow-hidden relative">
-
-        <!-- HEADER -->
-        {{-- <div class="bg-gradient-to-b from-cyan-400 to-blue-600 h-[150px] rounded-b-[40px] px-6 pt-6 text-white relative">
-            <a href="{{ route('mitra.dashboard') }}">
-                <svg class="w-7 h-7 absolute left-6 top-6" fill="none" stroke="white" stroke-width="2">
-                    <path d="M15 18l-6-6 6-6" />
-                </svg>
-            </a>
-            <svg class="w-6 h-6 absolute right-6 top-6" fill="white">
-                <circle cx="12" cy="5" r="2" />
-                <circle cx="12" cy="12" r="2" />
-                <circle cx="12" cy="19" r="2" />
-            </svg>
-            <div class="flex justify-center items-center h-full">
-                <h1 class="text-3xl font-semibold">Pengajuan</h1>
-            </div>
-        </div> --}}
-
+<body>
+    <div class="shell">
         <div class="top-bar">
             <a href="{{ route('mitra.dashboard') }}">&#8249;</a>
-            <h2>Pengajuan</h2>
-            <span class="more">&#8942;</span>
+            <h2>Pengajuan Saya</h2>
+            <span style="width:40px"></span>
         </div>
 
-        <!-- FORM -->
-        <form action="{{ route('mitra.pengajuan.store') }}" method="POST" enctype="multipart/form-data"
-            class="px-5 mt-4 pb-28 space-y-5">
-            @csrf
-
-            <!-- ERROR -->
-            @if ($errors->any())
-                <div class="bg-red-50 border border-red-200 text-red-600 rounded-2xl p-4 text-sm">
-                    {{ $errors->first() }}
-                </div>
+        <div class="content">
+            @if (session('success'))
+                <div class="alert-success">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert-error">{{ session('error') }}</div>
             @endif
 
-            <!-- DATA DIRI -->
-            <div class="bg-white rounded-3xl p-5 shadow-md space-y-4">
-                <h3 class="font-semibold text-gray-700 text-base">Data Pengajuan</h3>
+            <a href="{{ route('mitra.pengajuan.create') }}" class="btn-tambah">
+                <svg viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Buat Pengajuan Baru
+            </a>
 
-                <div>
-                    <label class="text-sm text-gray-500 mb-1 block">Nama Pegawai <span
-                            class="text-red-500">*</span></label>
-                    <input type="text" name="nama_perusahaan" value="{{ old('nama_perusahaan') }}"
-                        placeholder="Masukkan Nama Pegawai"
-                        class="w-full p-3 rounded-xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
+            {{-- SEARCH & FILTER --}}
+            <form method="GET" action="{{ route('mitra.pengajuan.index') }}" class="search-wrap">
+                <div class="search-box">
+                    <input type="text" name="search" class="search-input"
+                        placeholder="Cari nama atau keperluan..." value="{{ request('search') }}"
+                        oninput="this.form.submit()">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
                 </div>
+                <div class="filter-row">
+                    <a href="{{ route('mitra.pengajuan.index') }}"
+                        class="filter-btn {{ !request('status') ? 'active' : '' }}">Semua</a>
+                    <a href="{{ route('mitra.pengajuan.index', ['status' => 'menunggu']) }}"
+                        class="filter-btn {{ request('status') === 'menunggu' ? 'active' : '' }}">Menunggu</a>
+                    <a href="{{ route('mitra.pengajuan.index', ['status' => 'diproses']) }}"
+                        class="filter-btn {{ request('status') === 'diproses' ? 'active' : '' }}">Diproses</a>
+                    <a href="{{ route('mitra.pengajuan.index', ['status' => 'selesai']) }}"
+                        class="filter-btn {{ request('status') === 'selesai' ? 'active' : '' }}">Selesai</a>
+                    <a href="{{ route('mitra.pengajuan.index', ['status' => 'ditolak']) }}"
+                        class="filter-btn {{ request('status') === 'ditolak' ? 'active' : '' }}">Ditolak</a>
+                </div>
+            </form>
 
-                <div>
-                    <label class="text-sm text-gray-500 mb-1 block">Alamat <span class="text-red-500">*</span></label>
-                    <input type="text" name="alamat" value="{{ old('alamat') }}" placeholder="Masukkan Alamat"
-                        class="w-full p-3 rounded-xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
+            @forelse($pengajuans as $item)
+                @php
+                    $isSelesai = $item->status_arsip === 'diarsipkan' && $item->arsip?->dikirim_ke_mitra;
+                    $statusLabel = $isSelesai ? 'Selesai' : ucfirst($item->status);
+                    $statusBadge = $isSelesai ? 'badge-selesai' : 'badge-' . $item->status;
+                @endphp
+                <div class="card-item">
+                    <div class="card-header">
+                        <span class="card-id">SKPP #{{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</span>
+                        <span class="card-date">{{ $item->created_at->translatedFormat('d M Y') }}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">{{ $item->nama_perusahaan }}</div>
+                        <div class="card-keperluan">{{ $item->keperluan }}</div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="badge {{ $statusBadge }}">{{ $statusLabel }}</span>
+                        <div class="card-actions">
+                            <a href="{{ route('mitra.pengajuan.show', $item->id) }}" class="btn-action primary">Detail</a>
+                            @if ($item->status === 'menunggu' && $item->status_pencatatan === 'belum_dicatat')
+                                <a href="{{ route('mitra.pengajuan.edit', $item->id) }}" class="btn-action">Edit</a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
+            @empty
+                <div class="empty-state">
+                    <div class="icon">📄</div>
+                    <p>{{ request('search') ? 'Tidak ada pengajuan yang cocok.' : 'Belum ada pengajuan dibuat.' }}</p>
+                </div>
+            @endforelse
 
-                <div>
-                    <label class="text-sm text-gray-500 mb-1 block">NPWP <span
-                            class="text-gray-400">(opsional)</span></label>
-                    <input type="text" name="npwp" value="{{ old('npwp') }}" placeholder="Masukkan NPWP"
-                        class="w-full p-3 rounded-xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-500 mb-1 block">Keperluan <span
-                            class="text-red-500">*</span></label>
-                    <textarea name="keperluan" placeholder="Masukkan Keperluan" rows="3"
-                        class="w-full p-3 rounded-xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none">{{ old('keperluan') }}</textarea>
-                </div>
+            <div class="pagination-wrap">
+                {{ $pengajuans->links() }}
             </div>
-
-            <!-- SLIP GAJI -->
-            <div class="bg-white rounded-3xl p-5 shadow-md">
-                <div class="flex items-center gap-4">
-                    <div class="bg-indigo-500 w-12 h-12 flex items-center justify-center rounded-full flex-shrink-0">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="white" stroke-width="2">
-                            <path d="M7 2h6l5 5v13H7z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-base">Upload Slip Gaji</h3>
-                        <p class="text-sm text-gray-500">Format: PDF, max 2mb</p>
-                        @error('file_slip_gaji')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <label
-                    class="mt-4 block border-2 border-dashed border-gray-300 rounded-2xl py-6 text-center cursor-pointer hover:border-blue-400 transition">
-                    <input type="file" id="slipInput" name="file_slip_gaji" class="hidden" accept="application/pdf">
-                    <p id="slipText" class="text-gray-400 flex justify-center items-center gap-2 text-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 16V4" />
-                            <path d="M8 8l4-4 4 4" />
-                            <path d="M4 20h16" />
-                        </svg>
-                        Pilih File PDF
-                    </p>
-                    <p id="slipName" class="hidden text-gray-700 font-medium text-sm"></p>
-                    <p id="error-slip" class="text-red-500 text-xs mt-1 hidden"></p>
-                </label>
-                <div id="slipActions" class="hidden flex gap-3 mt-3">
-                    <button type="button" id="deleteSlip" class="text-red-500 text-sm">Hapus File</button>
-                </div>
-            </div>
-
-            <!-- SK -->
-            <div class="bg-white rounded-3xl p-5 shadow-md">
-                <div class="flex items-center gap-4">
-                    <div
-                        class="bg-red-400 w-12 h-12 flex items-center justify-content rounded-full flex-shrink-0 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="white" stroke-width="2">
-                            <path d="M7 2h6l5 5v13H7z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-base">Upload SK</h3>
-                        <p class="text-sm text-gray-500">Format: PDF, max 2mb</p>
-                        @error('file_sk')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <label
-                    class="mt-4 block border-2 border-dashed border-gray-300 rounded-2xl py-6 text-center cursor-pointer hover:border-blue-400 transition">
-                    <input type="file" id="skInput" name="file_sk" class="hidden" accept="application/pdf">
-                    <p id="skText" class="text-gray-400 flex justify-center items-center gap-2 text-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 16V4" />
-                            <path d="M8 8l4-4 4 4" />
-                            <path d="M4 20h16" />
-                        </svg>
-                        Pilih File PDF
-                    </p>
-                    <p id="skName" class="hidden text-gray-700 font-medium text-sm"></p>
-                    <p id="error-sk" class="text-red-500 text-xs mt-1 hidden"></p>
-                </label>
-                <div id="skActions" class="hidden flex gap-3 mt-3">
-                    <button type="button" id="deleteSk" class="text-red-500 text-sm">Hapus File</button>
-                </div>
-            </div>
-
-            <!-- SURAT PENGANTAR -->
-            <div class="bg-white rounded-3xl p-5 shadow-md">
-                <div class="flex items-center gap-4">
-                    <div class="bg-yellow-400 w-12 h-12 flex items-center justify-center rounded-full flex-shrink-0">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="white" stroke-width="2">
-                            <path d="M7 2h6l5 5v13H7z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-base">Upload Surat Pengantar</h3>
-                        <p class="text-sm text-gray-500">Format: PDF, max 2mb</p>
-                        @error('file_skpp')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <label
-                    class="mt-4 block border-2 border-dashed border-gray-300 rounded-2xl py-6 text-center cursor-pointer hover:border-blue-400 transition">
-                    <input type="file" id="skppInput" name="file_skpp" class="hidden" accept="application/pdf">
-                    <p id="skppText" class="text-gray-400 flex justify-center items-center gap-2 text-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 16V4" />
-                            <path d="M8 8l4-4 4 4" />
-                            <path d="M4 20h16" />
-                        </svg>
-                        Pilih File PDF
-                    </p>
-                    <p id="skppName" class="hidden text-gray-700 font-medium text-sm"></p>
-                    <p id="error-skpp" class="text-red-500 text-xs mt-1 hidden"></p>
-                </label>
-                <div id="skppActions" class="hidden flex gap-3 mt-3">
-                    <button type="button" id="deleteSkpp" class="text-red-500 text-sm">Hapus File</button>
-                </div>
-            </div>
-
-            <!-- TOMBOL KIRIM -->
-            <button type="submit"
-                class="w-full bg-[#1a8fb3] text-white py-4 rounded-full text-lg font-semibold shadow-lg
-    hover:bg-[#157a9a] hover:shadow-xl
-    active:scale-95
-    transition-all duration-200">
-                Kirim Pengajuan
-            </button>
-
-        </form>
+        </div>
 
         {{-- NAVBAR --}}
         <div class="navbar">
@@ -313,7 +498,7 @@
                     <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
             </a>
-            <a href="#" class="nav-plus">
+            <a href="{{ route('mitra.pengajuan.create') }}" class="nav-plus" title="Buat Pengajuan">
                 <svg viewBox="0 0 24 24">
                     <line x1="12" y1="5" x2="12" y2="19" />
                     <line x1="5" y1="12" x2="19" y2="12" />
@@ -326,56 +511,7 @@
                 </svg>
             </a>
         </div>
-
-
     </div>
-
-    <script>
-        function setupUpload(inputId, textId, nameId, errorId, actionsId, deleteId) {
-            const input = document.getElementById(inputId);
-            const text = document.getElementById(textId);
-            const nameText = document.getElementById(nameId);
-            const error = document.getElementById(errorId);
-            const actions = document.getElementById(actionsId);
-            const deleteBtn = document.getElementById(deleteId);
-
-            input.addEventListener('change', function() {
-                const file = this.files[0];
-                if (!file) return;
-
-                if (file.size > 2048 * 1024) {
-                    error.textContent = 'File tidak boleh lebih dari 2MB';
-                    error.classList.remove('hidden');
-                    input.value = '';
-                    return;
-                }
-                if (file.type !== 'application/pdf') {
-                    error.textContent = 'File harus berformat PDF';
-                    error.classList.remove('hidden');
-                    input.value = '';
-                    return;
-                }
-
-                error.classList.add('hidden');
-                text.classList.add('hidden');
-                nameText.classList.remove('hidden');
-                actions.classList.remove('hidden');
-                nameText.textContent = '✓ ' + file.name;
-            });
-
-            deleteBtn.addEventListener('click', function() {
-                input.value = '';
-                nameText.textContent = '';
-                nameText.classList.add('hidden');
-                text.classList.remove('hidden');
-                actions.classList.add('hidden');
-            });
-        }
-
-        setupUpload('slipInput', 'slipText', 'slipName', 'error-slip', 'slipActions', 'deleteSlip');
-        setupUpload('skInput', 'skText', 'skName', 'error-sk', 'skActions', 'deleteSk');
-        setupUpload('skppInput', 'skppText', 'skppName', 'error-skpp', 'skppActions', 'deleteSkpp');
-    </script>
 </body>
 
 </html>

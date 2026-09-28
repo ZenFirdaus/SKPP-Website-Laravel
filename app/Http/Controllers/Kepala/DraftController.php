@@ -19,15 +19,20 @@ class DraftController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->whereHas('pencatatan', fn($q2) => $q2->where('nama_lengkap', 'like', "%$search%"))
-                  ->orWhere('id', 'like', "%$search%");
+                $q->whereHas('pencatatan', fn ($q2) => $q2->where('nama_lengkap', 'like', "%{$search}%"))
+                    ->orWhereHas('user', fn ($q2) => $q2->where('name', 'like', "%{$search}%"))
+                    ->orWhere('id', 'like', "%{$search}%");
             });
+        }
+
+        if ($request->filled('status_draft')) {
+            $query->where('status_draft', $request->status_draft);
         }
 
         $sort = $request->get('sort', 'desc');
         $query->orderBy('id', $sort === 'asc' ? 'asc' : 'desc');
 
-        $pengajuanList = $query->get();
+        $pengajuanList = $query->paginate(10)->withQueryString();
 
         return view('kepala.draft.index', compact('pengajuanList'));
     }
@@ -35,6 +40,12 @@ class DraftController extends Controller
     public function create($pengajuanId)
     {
         $pengajuan = Pengajuan::with(['user', 'pencatatan', 'draftSkpp'])->findOrFail($pengajuanId);
+
+        if ($pengajuan->status_pengecekan !== 'disetujui') {
+            return redirect()->route('kepala.draft.index')
+                ->with('error', 'Hanya pengajuan yang telah disetujui yang dapat diunggah draft SKPP.');
+        }
+
         $draftSkpp = DraftSkpp::where('pengajuan_id', $pengajuanId)->first();
 
         return view('kepala.draft.form', compact('pengajuan', 'draftSkpp'));
@@ -46,11 +57,16 @@ class DraftController extends Controller
             'file_skpp' => 'required|file|mimes:pdf|max:5120',
         ], [
             'file_skpp.required' => 'File SKPP wajib diupload.',
-            'file_skpp.mimes'    => 'File harus berformat PDF.',
-            'file_skpp.max'      => 'Ukuran file maksimal 5MB.',
+            'file_skpp.mimes' => 'File harus berformat PDF.',
+            'file_skpp.max' => 'Ukuran file maksimal 5MB.',
         ]);
 
         $pengajuan = Pengajuan::findOrFail($pengajuanId);
+
+        if ($pengajuan->status_pengecekan !== 'disetujui') {
+            return redirect()->route('kepala.draft.index')
+                ->with('error', 'Pengajuan ini belum disetujui.');
+        }
 
         $existing = DraftSkpp::where('pengajuan_id', $pengajuanId)->first();
         if ($existing && Storage::disk('public')->exists($existing->file_skpp)) {
@@ -62,8 +78,8 @@ class DraftController extends Controller
         DraftSkpp::updateOrCreate(
             ['pengajuan_id' => $pengajuanId],
             [
-                'diupload_oleh'  => Auth::id(),
-                'file_skpp'      => $path,
+                'diupload_oleh' => Auth::id(),
+                'file_skpp' => $path,
                 'tanggal_upload' => now(),
             ]
         );
@@ -72,6 +88,6 @@ class DraftController extends Controller
 
         return redirect()
             ->route('kepala.draft.index')
-            ->with('success', 'File SKPP berhasil diupload.');
+            ->with('success', 'File SKPP berhasil diunggah.');
     }
 }

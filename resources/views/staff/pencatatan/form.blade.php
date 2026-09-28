@@ -391,8 +391,39 @@
                     {{ strtoupper(substr($pengajuan->user->name ?? 'U', 0, 1)) }}
                 </div>
                 <div class="info-text">
-                    <div class="name">{{ $pengajuan->user->name ?? '-' }}</div>
-                    <div class="sub">Diajukan: {{ $pengajuan->created_at->format('d M Y') }}</div>
+                    <div class="name">{{ $pengajuan->nama_perusahaan }}</div>
+                    <div class="sub">Pemohon: {{ $pengajuan->user->name ?? '-' }} &bull; Diajukan: {{ $pengajuan->created_at->format('d M Y') }}</div>
+                </div>
+            </div>
+
+            <!-- Dokumen yang diunggah -->
+            <div style="background: #f8fcfe; border-radius: 16px; padding: 12px; margin-bottom: 18px; border: 1px solid #e0f0f8;">
+                <div style="font-size: 13px; font-weight: 700; color: #1a8fb3; margin-bottom: 8px;">Periksa Dokumen Pemohon:</div>
+                <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Slip Gaji:</span>
+                        @if($pengajuan->file_slip_gaji)
+                            <a href="{{ route('dokumen.view', [$pengajuan->id, 'slip_gaji']) }}" target="_blank" style="color: #1a8fb3; font-weight: 600; text-decoration: underline;">Lihat Slip Gaji</a>
+                        @else
+                            <span style="color: #999;">Tidak diunggah</span>
+                        @endif
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Surat Keputusan (SK):</span>
+                        @if($pengajuan->file_sk)
+                            <a href="{{ route('dokumen.view', [$pengajuan->id, 'sk']) }}" target="_blank" style="color: #1a8fb3; font-weight: 600; text-decoration: underline;">Lihat SK</a>
+                        @else
+                            <span style="color: #999;">Tidak diunggah</span>
+                        @endif
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Surat Pengantar / SKPP:</span>
+                        @if($pengajuan->file_skpp)
+                            <a href="{{ route('dokumen.view', [$pengajuan->id, 'skpp']) }}" target="_blank" style="color: #1a8fb3; font-weight: 600; text-decoration: underline;">Lihat Dokumen</a>
+                        @else
+                            <span style="color: #999;">Tidak diunggah</span>
+                        @endif
+                    </div>
                 </div>
             </div>
 

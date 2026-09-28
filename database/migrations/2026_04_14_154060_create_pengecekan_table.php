@@ -21,7 +21,7 @@ return new class extends Migration
         });
 
         Schema::table('pengajuans', function (Blueprint $table) {
-            if (!Schema::hasColumn('pengajuans', 'status_pengecekan')) {
+            if (! Schema::hasColumn('pengajuans', 'status_pengecekan')) {
                 $table->enum('status_pengecekan', ['menunggu', 'disetujui', 'ditolak'])
                     ->default('menunggu')
                     ->after('status_pencatatan');

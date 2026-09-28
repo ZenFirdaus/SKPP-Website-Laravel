@@ -21,8 +21,8 @@ class Arsip extends Model
 
     protected $casts = [
         'dikirim_ke_mitra' => 'boolean',
-        'tanggal_selesai'  => 'datetime',
-        'tanggal_arsip'    => 'datetime',
+        'tanggal_selesai' => 'datetime',
+        'tanggal_arsip' => 'datetime',
     ];
 
     public function pengajuan()

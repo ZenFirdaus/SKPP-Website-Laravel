@@ -1,41 +1,11 @@
-{{-- <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout> --}}
-
-
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Profile</title>
+    <title>Profil Saya - SKPP</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         * {
             box-sizing: border-box;
@@ -45,126 +15,82 @@
 
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #e8f6fb;
-            min-height: 100vh;
+            background: #dff0f7;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
         }
 
-        .phone-wrap {
+        .shell {
             width: 100%;
             max-width: 430px;
             min-height: 100vh;
+            background: #f3f7fa;
             display: flex;
             flex-direction: column;
-            background: #e8f6fb;
+            position: relative;
         }
 
         .top-bar {
-            background: linear-gradient(160deg, #29b6d8 0%, #1a8fb3 100%);
-            padding: 20px 20px 50px;
+            background: linear-gradient(160deg, #2ec6e8 0%, #1a8fb3 100%);
+            padding: 20px 20px 52px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            border-radius: 0 0 32px 32px;
         }
 
         .top-bar a {
             color: #fff;
-            font-size: 24px;
+            font-size: 28px;
             text-decoration: none;
             padding: 4px 8px;
+            border-radius: 10px;
+            transition: background 0.2s;
         }
 
         .top-bar h2 {
             color: #fff;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             flex: 1;
             text-align: center;
         }
 
-        .top-bar span {
-            color: #fff;
-            font-size: 22px;
-            padding: 4px 8px;
-            cursor: pointer;
+        .content {
+            flex: 1;
+            padding: 16px 16px 100px;
+            margin-top: -24px;
         }
 
-        .profile-body {
-            flex: 1;
-            padding: 0 24px 32px;
-            margin-top: -30px;
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .avatar-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
 
         .avatar {
-            width: 80px;
-            height: 80px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
-            background: #1a8fb3;
+            background: linear-gradient(135deg, #1a8fb3, #2ec6e8);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 8px;
-            border: 3px solid #fff;
-        }
-
-        .avatar svg {
-            width: 52px;
-            height: 52px;
-        }
-
-        .edit-btn {
-            color: #1a8fb3;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: underline;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .field-label {
-            color: #1a8fb3;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            margin-top: 16px;
-        }
-
-        .field-val {
-            background: #fff;
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 14px;
-            color: #444;
-            width: 100%;
-        }
-
-        .btn-logout {
-            width: 100%;
-            background: #fff;
-            color: #1a8fb3;
-            border: 1.5px solid #1a8fb3;
-            border-radius: 50px;
-            padding: 14px;
-            font-size: 15px;
+            color: #fff;
+            font-size: 28px;
             font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            margin-top: 28px;
-        }
-
-        .btn-logout:hover {
-            background: #eaf6fb;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 12px rgba(26, 143, 179, 0.2);
+            margin-bottom: 8px;
         }
 
         .role-badge {
@@ -172,13 +98,91 @@
             background: #eaf6fb;
             color: #1a8fb3;
             border-radius: 50px;
-            padding: 2px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 6px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        /* NAVBAR */
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        .field-group {
+            margin-bottom: 14px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .field-input {
+            width: 100%;
+            background: #eaf6fb;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .field-input:focus {
+            border-color: #2ec6e8;
+        }
+
+        .btn-simpan {
+            width: 100%;
+            background: #1a8fb3;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .btn-simpan:hover {
+            background: #157a9a;
+        }
+
+        .btn-logout {
+            width: 100%;
+            background: #fff;
+            color: #e74c3c;
+            border: 1.5px solid #e74c3c;
+            border-radius: 50px;
+            padding: 13px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #fdecea;
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
         .navbar {
             position: fixed;
             bottom: 0;
@@ -202,12 +206,7 @@
             cursor: pointer;
             padding: 6px 14px;
             border-radius: 14px;
-            transition: background 0.2s;
             text-decoration: none;
-        }
-
-        .nav-item:hover {
-            background: #f0f9fc;
         }
 
         .nav-item svg {
@@ -221,107 +220,111 @@
         .nav-item.active svg {
             stroke: #1a8fb3;
         }
-
-        .nav-plus {
-            width: 50px;
-            height: 50px;
-            background: #1a8fb3;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: -20px;
-            box-shadow: 0 4px 14px rgba(26, 143, 179, 0.4);
-            transition: background 0.2s, transform 0.15s;
-            text-decoration: none;
-        }
-
-        .nav-plus:hover {
-            background: #157a9a;
-            transform: scale(1.08);
-        }
-
-        .nav-plus svg {
-            stroke: #fff;
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke-width: 2;
-        }
     </style>
 </head>
 
 <body>
-    <div class="phone-wrap">
+    <div class="shell">
         <div class="top-bar">
-            <a href="javascript:history.back()">&#8249;</a>
-            <h2>Profile</h2>
-            <span>&#8942;</span>
+            <a href="{{ route('dashboard') }}">&#8249;</a>
+            <h2>Profil Saya</h2>
+            <span style="width:40px"></span>
         </div>
 
-        <div class="profile-body">
-            <div class="avatar-wrap">
-                <div class="avatar">
-                    <svg viewBox="0 0 52 52" fill="none">
-                        <circle cx="26" cy="19" r="10" fill="#fff" opacity="0.9" />
-                        <ellipse cx="26" cy="42" rx="18" ry="10" fill="#fff"
-                            opacity="0.7" />
-                    </svg>
+        <div class="content">
+            <!-- AVATAR & ROLE -->
+            <div class="card">
+                <div class="avatar-wrap">
+                    <div class="avatar">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </div>
+                    <span class="role-badge">Role: {{ Auth::user()->role }}</span>
                 </div>
-                <button class="edit-btn">Edit Profile</button>
+
+                @if (session('status') === 'profile-updated')
+                    <div class="alert-success">✓ Data profil berhasil diperbarui!</div>
+                @endif
+
+                <!-- UPDATE PROFILE INFO FORM -->
+                <form method="POST" action="{{ route('profile.update') }}">
+                    @csrf
+                    @method('patch')
+
+                    <div class="field-group">
+                        <label class="field-label">Nama Lengkap</label>
+                        <input type="text" name="name" value="{{ old('name', Auth::user()->name) }}" class="field-input" required>
+                        @error('name')
+                            <span class="error-msg">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Alamat Email</label>
+                        <input type="email" name="email" value="{{ old('email', Auth::user()->email) }}" class="field-input" required>
+                        @error('email')
+                            <span class="error-msg">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn-simpan">Simpan Profil</button>
+                </form>
             </div>
 
-            <div class="field-label">Username</div>
-            <div class="field-val">{{ Auth::user()->name }}</div>
+            <!-- UPDATE PASSWORD -->
+            <div class="card">
+                <h3 style="font-size: 15px; font-weight: 700; color: #1a8fb3; margin-bottom: 12px;">Ubah Password</h3>
 
-            <div class="field-label">E-mail</div>
-            <div class="field-val">{{ Auth::user()->email }}</div>
+                @if (session('status') === 'password-updated')
+                    <div class="alert-success">✓ Password berhasil diubah!</div>
+                @endif
 
-            <div class="field-label">Password</div>
-            <div class="field-val">••••••••</div>
+                <form method="POST" action="{{ route('password.update') }}">
+                    @csrf
+                    @method('put')
 
-            <div class="field-label">Role</div>
-            <div class="field-val">
-                @php
-                    $roleLabel =
-                        [
-                            'mitra' => 'Mitra',
-                            'staff' => 'Staff',
-                            'kepala' => 'Kepala Staff',
-                        ][Auth::user()->role] ?? Auth::user()->role;
-                @endphp
-                {{ $roleLabel }}
+                    <div class="field-group">
+                        <label class="field-label">Password Saat Ini</label>
+                        <input type="password" name="current_password" class="field-input" placeholder="Masukkan password lama" required>
+                        @error('current_password', 'updatePassword')
+                            <span class="error-msg">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Password Baru</label>
+                        <input type="password" name="password" class="field-input" placeholder="Masukkan password baru" required>
+                        @error('password', 'updatePassword')
+                            <span class="error-msg">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Ulangi Password Baru</label>
+                        <input type="password" name="password_confirmation" class="field-input" placeholder="Konfirmasi password baru" required>
+                        @error('password_confirmation', 'updatePassword')
+                            <span class="error-msg">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn-simpan">Perbarui Password</button>
+                </form>
             </div>
 
+            <!-- LOGOUT BUTTON -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn-logout">Keluar</button>
+                <button type="submit" class="btn-logout">Keluar dari Akun</button>
             </form>
         </div>
 
-        
-        {{-- NAVBAR --}}
         <div class="navbar">
-            <a href="{{ url()->previous() }}" class="nav-item">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
-            </a>
-            <a href="#" class="nav-plus">
-                <svg viewBox="0 0 24 24">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
+            <a href="{{ route('dashboard') }}" class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
             </a>
             <a href="{{ route('profile.edit') }}" class="nav-item active">
-                <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                </svg>
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" /></svg>
             </a>
         </div>
-
     </div>
 </body>
 

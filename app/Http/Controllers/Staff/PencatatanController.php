@@ -18,23 +18,30 @@ class PencatatanController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->whereHas('pencatatan', fn($q2) => $q2->where('nama_lengkap', 'like', "%$search%"))
-                  ->orWhere('id', 'like', "%$search%");
+                $q->whereHas('pencatatan', fn ($q2) => $q2->where('nama_lengkap', 'like', "%{$search}%"))
+                    ->orWhereHas('user', fn ($q2) => $q2->where('name', 'like', "%{$search}%"))
+                    ->orWhere('nama_perusahaan', 'like', "%{$search}%")
+                    ->orWhere('id', 'like', "%{$search}%");
             });
+        }
+
+        // Filter status pencatatan
+        if ($request->filled('status_pencatatan')) {
+            $query->where('status_pencatatan', $request->status_pencatatan);
         }
 
         // Filter urutan
         $sort = $request->get('sort', 'desc');
         $query->orderBy('id', $sort === 'asc' ? 'asc' : 'desc');
 
-        $pengajuanList = $query->get();
+        $pengajuanList = $query->paginate(10)->withQueryString();
 
         return view('staff.pencatatan.index', compact('pengajuanList'));
     }
 
     public function create($pengajuanId)
     {
-        $pengajuan       = Pengajuan::with(['user', 'pencatatan'])->findOrFail($pengajuanId);
+        $pengajuan = Pengajuan::with(['user', 'pencatatan'])->findOrFail($pengajuanId);
         $existingCatatan = Pencatatan::where('pengajuan_id', $pengajuanId)->first();
 
         return view('staff.pencatatan.form', compact('pengajuan', 'existingCatatan'));
@@ -43,13 +50,13 @@ class PencatatanController extends Controller
     public function store(Request $request, $pengajuanId)
     {
         $request->validate([
-            'nama_lengkap'   => 'required|string|max:255',
-            'nip'            => 'required|string|max:50',
+            'nama_lengkap' => 'required|string|max:255',
+            'nip' => 'required|string|max:50',
             'status_dokumen' => 'required|in:valid,tidak_valid',
-            'catatan'        => 'nullable|string|max:1000',
+            'catatan' => 'nullable|string|max:1000',
         ], [
-            'nama_lengkap.required'   => 'Nama lengkap wajib diisi.',
-            'nip.required'            => 'NIP wajib diisi.',
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'nip.required' => 'NIP wajib diisi.',
             'status_dokumen.required' => 'Status dokumen wajib dipilih.',
         ]);
 
@@ -58,15 +65,18 @@ class PencatatanController extends Controller
         Pencatatan::updateOrCreate(
             ['pengajuan_id' => $pengajuanId],
             [
-                'nama_lengkap'   => $request->nama_lengkap,
-                'nip'            => $request->nip,
+                'nama_lengkap' => $request->nama_lengkap,
+                'nip' => $request->nip,
                 'status_dokumen' => $request->status_dokumen,
-                'catatan'        => $request->catatan,
-                'dicatat_oleh'   => Auth::id(),
+                'catatan' => $request->catatan,
+                'dicatat_oleh' => Auth::id(),
             ]
         );
 
-        $pengajuan->update(['status_pencatatan' => 'selesai_dicatat']);
+        $pengajuan->update([
+            'status_pencatatan' => 'selesai_dicatat',
+            'status' => 'diproses',
+        ]);
 
         return redirect()
             ->route('staff.pencatatan.index')
@@ -75,7 +85,7 @@ class PencatatanController extends Controller
 
     public function show($pengajuanId)
     {
-        $pengajuan  = Pengajuan::with(['user', 'pencatatan.staff'])->findOrFail($pengajuanId);
+        $pengajuan = Pengajuan::with(['user', 'pencatatan.staff', 'pengecekan.kepala', 'draftSkpp', 'arsip.staff'])->findOrFail($pengajuanId);
         $pencatatan = $pengajuan->pencatatan;
 
         return view('staff.pencatatan.detail', compact('pengajuan', 'pencatatan'));

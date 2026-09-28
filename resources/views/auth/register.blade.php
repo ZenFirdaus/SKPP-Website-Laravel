@@ -174,15 +174,6 @@
             </div>
 
             <div class="field-wrap">
-                <div class="field-label">Username</div>
-                <input class="field-input {{ $errors->has('username') ? 'is-invalid' : '' }}" type="text"
-                    name="username" placeholder="Masukkan Username" value="{{ old('username') }}" required />
-                @error('username')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="field-wrap">
                 <div class="field-label">E-mail</div>
                 <input class="field-input {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email"
                     placeholder="Masukkan Email" value="{{ old('email') }}" required />

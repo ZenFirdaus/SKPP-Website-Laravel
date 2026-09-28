@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pengajuans', function (Blueprint $table) {
-            if (!Schema::hasColumn('pengajuans', 'status_arsip')) {
+            if (! Schema::hasColumn('pengajuans', 'status_arsip')) {
                 $table->enum('status_arsip', ['belum', 'diarsipkan'])
                     ->default('belum');
             }

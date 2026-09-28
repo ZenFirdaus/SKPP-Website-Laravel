@@ -19,7 +19,7 @@ return new class extends Migration
 
         // Tambah kolom status_draft ke pengajuans
         Schema::table('pengajuans', function (Blueprint $table) {
-            if (!Schema::hasColumn('pengajuans', 'status_draft')) {
+            if (! Schema::hasColumn('pengajuans', 'status_draft')) {
                 $table->enum('status_draft', ['belum', 'sudah_diupload'])
                     ->default('belum')
                     ->after('status_arsip');
